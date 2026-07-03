@@ -25,12 +25,11 @@ export function Waypoint({ project, onSelect }: WaypointProps) {
       {/* Pin shadow */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-1.5 rounded-full bg-black/40 blur-[4px] group-hover:w-6 transition-all" />
 
-      {/* Pin body - GPS marker shape */}
       <div className="relative flex flex-col items-center">
-        {/* Pulse ring - neon */}
+        {/* Pulse ring */}
         <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-10 h-10 rounded-full bg-coral/15 animate-pulse-ring-neon" />
 
-        {/* Marker head (teardrop) */}
+        {/* Teardrop pin */}
         <svg width="32" height="42" viewBox="0 0 32 42" fill="none" className="relative z-10 drop-shadow-[0_2px_12px_rgba(255,87,51,0.5)] group-hover:scale-110 transition-transform">
           <path
             d="M16 0C7.16 0 0 7.16 0 16c0 12 16 26 16 26s16-14 16-26C32 7.16 24.84 0 16 0z"
@@ -42,44 +41,27 @@ export function Waypoint({ project, onSelect }: WaypointProps) {
           <circle cx="16" cy="15" r="3.5" fill="#FF5733" />
         </svg>
 
-        {/* Tooltip card */}
-        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none group-hover:pointer-events-auto z-20">
-          <div className="glass-premium rounded-xl p-3">
+        {/* Permanent badge — always visible */}
+        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 w-44 sm:w-48 pointer-events-none z-20">
+          <div className="glass-map rounded-lg px-2.5 py-2">
             {/* Arrow */}
-            <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[6px] border-t-white/[0.06]" />
+            <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[5px] border-t-[rgba(5,5,8,0.82)]" />
 
-            <div className="flex items-start gap-2">
-              <div className="w-5 h-5 rounded-md bg-coral/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                <div className="w-2 h-2 rounded-full bg-coral shadow-[0_0_6px_rgba(255,87,51,0.6)]" />
-              </div>
-              <div className="min-w-0">
-                <p className="text-xs font-display font-bold text-silver truncate">
-                  {project.title}
-                </p>
-                <p className="text-[10px] font-mono text-coral mt-0.5">
-                  {project.category}
-                </p>
-              </div>
-            </div>
-
-            <p className="text-[10px] text-silver-dim mt-2 line-clamp-2 leading-relaxed">
-              {project.description}
+            <p className="text-[10px] sm:text-xs font-display font-bold text-silver truncate leading-tight drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
+              {project.title}
             </p>
-
-            <div className="flex flex-wrap gap-1 mt-2">
-              {project.techStack.slice(0, 3).map((tech) => (
+            <p className="text-[8px] sm:text-[9px] font-mono text-coral mt-0.5 leading-tight">
+              {project.category}
+            </p>
+            <div className="flex flex-wrap gap-0.5 mt-1.5">
+              {project.techStack.slice(0, 2).map((tech) => (
                 <span
                   key={tech}
-                  className="px-1.5 py-0.5 text-[8px] font-mono rounded bg-white/[0.04] text-silver-dim border border-white/[0.06]"
+                  className="px-1 py-px text-[7px] sm:text-[8px] font-mono rounded bg-white/[0.06] text-silver/70 border border-white/[0.08]"
                 >
                   {tech}
                 </span>
               ))}
-            </div>
-
-            <div className="flex items-center gap-1 mt-2 text-[9px] font-mono text-coral">
-              <span>Click to view details</span>
-              <span className="text-silver-dim">&rarr;</span>
             </div>
           </div>
         </div>

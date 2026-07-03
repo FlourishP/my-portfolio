@@ -1,10 +1,9 @@
 "use client";
 
 import { useState, useCallback, useRef } from "react";
-import { motion } from "motion/react";
-import { Search, Layers, MapPin, BarChart3, Move } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
+import { Search, Layers, MapPin, BarChart3, Move, ExternalLink, Github, X } from "lucide-react";
 import { SatelliteMap } from "@/components/map/SatelliteMap";
-import { ProjectDrawer } from "@/components/map/ProjectDrawer";
 import { FerrofluidWrapper } from "@/components/ui/FerrofluidWrapper";
 import { useGitHubRepos } from "@/lib/hooks/useGitHubRepos";
 import { INITIAL_PROJECTS } from "@/lib/constants";
@@ -16,6 +15,7 @@ interface ProjectsMapProps {
 
 export function ProjectsMap({ onShowHud }: ProjectsMapProps) {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [activeRoutingProject, setActiveRoutingProject] = useState<Project | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [zoom, setZoom] = useState(5);
   const [showOverlay, setShowOverlay] = useState(true);
@@ -54,6 +54,14 @@ export function ProjectsMap({ onShowHud }: ProjectsMapProps) {
     setShowOverlay((g) => !g);
   }, []);
 
+  const handlePinClick = useCallback((project: Project) => {
+    setActiveRoutingProject(project);
+  }, []);
+
+  const handleDismissModal = useCallback(() => {
+    setActiveRoutingProject(null);
+  }, []);
+
   return (
     <div
       ref={containerRef}
@@ -84,7 +92,7 @@ export function ProjectsMap({ onShowHud }: ProjectsMapProps) {
         showOverlay={showOverlay}
         onZoomChange={setZoom}
         onCenterChange={setMapCenter}
-        onProjectSelect={setSelectedProject}
+        onProjectSelect={handlePinClick}
       />
 
       {/* Top bar */}
@@ -173,10 +181,100 @@ export function ProjectsMap({ onShowHud }: ProjectsMapProps) {
         </div>
       </div>
 
-      <ProjectDrawer
-        project={selectedProject}
-        onClose={() => setSelectedProject(null)}
-      />
+      {/* ═══ Routing Modal ═══ */}
+      <AnimatePresence>
+        {activeRoutingProject && (
+          <>
+            {/* Backdrop scrim */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={handleDismissModal}
+              className="fixed inset-0 bg-black/70 backdrop-blur-md z-40"
+            />
+
+            {/* Modal */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              className="fixed inset-0 m-auto h-fit z-50 w-full max-w-sm px-4"
+            >
+              <div className="bg-[#0a0a10]/90 backdrop-blur-2xl border border-white/10 rounded-2xl p-6 shadow-2xl">
+                {/* Close button */}
+                <button
+                  onClick={handleDismissModal}
+                  className="absolute top-4 right-4 w-7 h-7 rounded-lg bg-white/[0.04] border border-white/[0.06] flex items-center justify-center text-silver-dim hover:text-silver hover:border-coral/40 transition-all"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+
+                {/* Header */}
+                <div className="flex items-start gap-3 mb-5">
+                  <div className="w-10 h-10 rounded-xl bg-coral/15 border border-coral/25 flex items-center justify-center flex-shrink-0">
+                    <MapPin className="w-5 h-5 text-coral" />
+                  </div>
+                  <div className="min-w-0">
+                    <h3 className="font-display text-base font-bold text-silver leading-tight drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
+                      {activeRoutingProject.title}
+                    </h3>
+                    <p className="text-[10px] font-mono text-coral mt-0.5">
+                      {activeRoutingProject.category}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Question */}
+                <p className="text-xs font-mono text-silver/80 mb-5 leading-relaxed">
+                  Where would you like to navigate?
+                </p>
+
+                {/* Action buttons */}
+                <div className="flex flex-col gap-2.5">
+                  {/* Button A — Live Website (hidden if no homepage) */}
+                  {activeRoutingProject.liveUrl && (
+                    <a
+                      href={activeRoutingProject.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-3 w-full px-4 py-3.5 rounded-xl bg-gradient-to-r from-coral to-[#FF8C42] text-[#050508] font-display font-bold text-sm hover:shadow-[0_0_20px_rgba(255,87,51,0.4)] transition-shadow"
+                    >
+                      <ExternalLink className="w-4 h-4 flex-shrink-0" />
+                      <span>Launch Live Website</span>
+                    </a>
+                  )}
+
+                  {/* Button B — Source Code */}
+                  <a
+                    href={activeRoutingProject.repoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 w-full px-4 py-3.5 rounded-xl bg-white/[0.04] border border-white/10 text-silver font-display font-bold text-sm hover:border-coral/30 hover:bg-white/[0.06] hover:shadow-[0_0_12px_rgba(255,87,51,0.15)] transition-all"
+                  >
+                    <Github className="w-4 h-4 flex-shrink-0" />
+                    <span>Explore Source Code</span>
+                  </a>
+                </div>
+
+                {/* Tech stack preview */}
+                <div className="flex flex-wrap gap-1 mt-4 pt-4 border-t border-white/[0.06]">
+                  {activeRoutingProject.techStack.slice(0, 4).map((tech) => (
+                    <span
+                      key={tech}
+                      className="px-1.5 py-0.5 text-[8px] font-mono rounded bg-white/[0.04] text-silver/60 border border-white/[0.06]"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

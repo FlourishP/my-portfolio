@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from "react";
 import { MapContainer, TileLayer, CircleMarker, useMap, useMapEvents } from "react-leaflet";
-import L from "leaflet";
 import type { Project } from "@/lib/types";
 import "leaflet/dist/leaflet.css";
 
@@ -46,9 +45,10 @@ function ViewSync({ onZoomChange, onCenterChange }: ViewSyncProps) {
 
 interface ProjectMarkersProps {
   projects: Project[];
+  onProjectSelect: (project: Project) => void;
 }
 
-function ProjectMarkers({ projects }: ProjectMarkersProps) {
+function ProjectMarkers({ projects, onProjectSelect }: ProjectMarkersProps) {
   const seed = Date.now();
   const rng = seededRandom(seed);
 
@@ -85,7 +85,9 @@ function ProjectMarkers({ projects }: ProjectMarkersProps) {
                 e.target.setStyle({ radius: 7, weight: 2, fillOpacity: 0.9 });
                 e.target.closeTooltip();
               },
-              click: () => {},
+              click: () => {
+                onProjectSelect(project);
+              },
             }}
           />
         );
@@ -107,6 +109,7 @@ export function SatelliteMap({
   showOverlay,
   onZoomChange,
   onCenterChange,
+  onProjectSelect,
 }: SatelliteMapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
 
@@ -142,7 +145,7 @@ export function SatelliteMap({
           />
         )}
 
-        <ProjectMarkers projects={projects} />
+        <ProjectMarkers projects={projects} onProjectSelect={onProjectSelect} />
       </MapContainer>
     </div>
   );
