@@ -24,7 +24,7 @@ export function Viewport({ activeApp }: ViewportProps) {
   const ActiveView = VIEW_MAP[activeApp];
 
   return (
-    <div className="relative h-full md:overflow-hidden overflow-auto pb-20 md:pb-0">
+    <div className="relative min-h-0 flex-1 md:h-full overflow-auto md:overflow-hidden pb-16 sm:pb-20 md:pb-0">
       <AnimatePresence mode="wait">
         <motion.div
           key={activeApp}
@@ -32,7 +32,7 @@ export function Viewport({ activeApp }: ViewportProps) {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -8 }}
           transition={{ duration: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="md:absolute md:inset-0 relative h-full"
+          className="md:absolute md:inset-0 relative min-h-full md:min-h-0 md:h-full"
         >
           <ActiveView />
         </motion.div>

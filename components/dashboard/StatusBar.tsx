@@ -22,32 +22,32 @@ export function StatusBar() {
   }, []);
 
   return (
-    <div className="col-span-1 md:col-span-3 h-12 glass-premium border-b border-border flex items-center justify-between px-5 rounded-none">
-      <div className="flex items-center gap-3">
+    <div className="col-span-1 md:col-span-3 h-11 sm:h-12 glass-premium border-b border-border flex items-center justify-between px-3 sm:px-5 rounded-none safe-area-top">
+      <div className="flex items-center gap-2 sm:gap-3 min-w-0">
         <img
           src={avatarUrl}
           alt="GitHub avatar"
-          className="w-7 h-7 rounded-full border border-coral/30 object-cover"
+          className="w-6 h-6 sm:w-7 sm:h-7 rounded-full border border-coral/30 object-cover flex-shrink-0"
           onError={(e) => {
             e.currentTarget.style.display = "none";
           }}
         />
-        <span className="text-xs font-display font-semibold tracking-wide text-silver">
+        <span className="text-[11px] sm:text-xs font-display font-semibold tracking-wide text-silver truncate">
           Princess
         </span>
       </div>
 
-      <div className="font-mono text-sm font-medium tracking-widest text-silver/80">
+      <div className="font-mono text-xs sm:text-sm font-medium tracking-widest text-silver/80 flex-shrink-0 mx-2">
         {time}
       </div>
 
-      <div className="flex items-center gap-4">
-        <div className="flex items-center gap-1.5">
+      <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
+        <div className="hidden xs:flex items-center gap-1.5">
           <Wifi className="w-3.5 h-3.5 text-coral" />
           <span className="text-[10px] font-mono font-bold text-coral">5G</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <Battery className="w-4 h-4 text-silver/60" />
+          <Battery className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-silver/60" />
           <span className="text-[10px] font-mono text-silver/60">87%</span>
         </div>
         <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_#34d39980]" />
