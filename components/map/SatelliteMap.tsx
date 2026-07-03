@@ -65,10 +65,17 @@ function createPinIcon(project: Project): L.DivIcon {
       : "left: 50%; transform: translateX(-50%);";
 
   const html = `
+    <style>
+      @keyframes pin-glow { 0%,100%{opacity:0.5;transform:translateX(-50%) scale(1)} 50%{opacity:1;transform:translateX(-50%) scale(1.3)} }
+      @keyframes pin-pulse-ring { 0%{opacity:0.6;transform:translateX(-50%) scale(0.8)} 100%{opacity:0;transform:translateX(-50%) scale(2.2)} }
+    </style>
     <div style="position:relative;cursor:pointer;" class="pin-marker">
+      <!-- Glow rings -->
+      <div style="position:absolute;top:8px;left:50%;transform:translateX(-50%);width:40px;height:40px;border-radius:50%;background:radial-gradient(circle,rgba(255,87,51,0.4) 0%,transparent 70%);animation:pin-glow 2s ease-in-out infinite;pointer-events:none;"></div>
+      <div style="position:absolute;top:4px;left:50%;transform:translateX(-50%);width:56px;height:56px;border-radius:50%;border:1.5px solid rgba(255,87,51,0.25);animation:pin-pulse-ring 2.5s ease-out infinite;pointer-events:none;"></div>
       <!-- Pin SVG -->
-      <svg width="32" height="42" viewBox="0 0 32 42" fill="none" style="display:block;margin:0 auto;filter:drop-shadow(0 2px 12px rgba(255,87,51,0.5));">
-        <path d="M16 0C7.16 0 0 7.16 0 16c0 12 16 26 16 26s16-14 16-26C32 7.16 24.84 0 16 0z" fill="#FF5733" stroke="rgba(255,87,51,0.6)" stroke-width="1.5"/>
+      <svg width="32" height="42" viewBox="0 0 32 42" fill="none" style="display:block;margin:0 auto;filter:drop-shadow(0 0 8px rgba(255,87,51,0.6)) drop-shadow(0 0 20px rgba(255,87,51,0.3));">
+        <path d="M16 0C7.16 0 0 7.16 0 16c0 12 16 26 16 26s16-14 16-26C32 7.16 24.84 0 16 0z" fill="#FF5733" stroke="rgba(255,87,51,0.8)" stroke-width="1.5"/>
         <circle cx="16" cy="15" r="7" fill="white" fill-opacity="0.95"/>
         <circle cx="16" cy="15" r="3.5" fill="#FF5733"/>
       </svg>
