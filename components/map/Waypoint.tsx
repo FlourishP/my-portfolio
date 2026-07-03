@@ -8,14 +8,34 @@ interface WaypointProps {
   onSelect: (project: Project) => void;
 }
 
+function hashId(id: string): number {
+  let h = 0;
+  for (let i = 0; i < id.length; i++) {
+    h = ((h << 5) - h + id.charCodeAt(i)) | 0;
+  }
+  return Math.abs(h);
+}
+
 export function Waypoint({ project, onSelect }: WaypointProps) {
+  const variant = hashId(project.id) % 3;
+
+  const badgeAlign = variant === 0
+    ? "left-0"
+    : variant === 1
+      ? "right-0"
+      : "left-1/2 -translate-x-1/2";
+
+  const badgeTransform = variant === 2
+    ? "translate(-50%, -100%)"
+    : "translateY(-100%)";
+
   return (
     <motion.button
       onClick={() => onSelect(project)}
       initial={{ scale: 0, opacity: 0, y: -20 }}
       animate={{ scale: 1, opacity: 1, y: 0 }}
       transition={{ delay: Math.random() * 0.4, type: "spring", stiffness: 300, damping: 22 }}
-      className="absolute z-10 group cursor-pointer"
+      className="absolute z-10 group cursor-pointer focus:z-50 hover:z-50"
       style={{
         left: `${project.gridPosition.x}%`,
         top: `${project.gridPosition.y}%`,
@@ -42,27 +62,23 @@ export function Waypoint({ project, onSelect }: WaypointProps) {
         </svg>
 
         {/* Permanent badge — always visible */}
-        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 w-44 sm:w-48 pointer-events-none z-20">
-          <div className="glass-map rounded-lg px-2.5 py-2">
-            {/* Arrow */}
-            <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[5px] border-t-[rgba(5,5,8,0.82)]" />
+        <div
+          className={`absolute bottom-full mb-1 w-40 sm:w-44 pointer-events-none z-20 ${badgeAlign}`}
+          style={{ transform: badgeTransform }}
+        >
+          <div className="glass-map rounded-lg px-2 py-1.5">
+            {/* Arrow pointing down to pin */}
+            <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-t-[4px] border-t-[rgba(5,5,8,0.82)]" />
 
-            <p className="text-[10px] sm:text-xs font-display font-bold text-silver truncate leading-tight drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
+            {/* Repo name */}
+            <p className="text-[9px] sm:text-[10px] font-display font-bold text-silver truncate leading-tight drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
               {project.title}
             </p>
-            <p className="text-[8px] sm:text-[9px] font-mono text-coral mt-0.5 leading-tight">
-              {project.category}
+
+            {/* Brief summary */}
+            <p className="text-[7px] sm:text-[8px] font-mono text-silver/60 mt-0.5 leading-snug line-clamp-1">
+              {project.description}
             </p>
-            <div className="flex flex-wrap gap-0.5 mt-1.5">
-              {project.techStack.slice(0, 2).map((tech) => (
-                <span
-                  key={tech}
-                  className="px-1 py-px text-[7px] sm:text-[8px] font-mono rounded bg-white/[0.06] text-silver/70 border border-white/[0.08]"
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
           </div>
         </div>
       </div>
