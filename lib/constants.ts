@@ -13,6 +13,7 @@ export const LINKS = {
     "https://www.figma.com/design/LMWaQucOeshomqSaNYHYa0/fintech-app?node-id=4-2",
   loudGadgets: "https://loud-gadgets-store.vercel.app",
   velvetCoffee: "https://velvet-coffee.vercel.app",
+  spotify: "https://open.spotify.com/playlist/37i9dQZF1DX5trt9i14X7j",
 } as const;
 
 export const PROFILE = {

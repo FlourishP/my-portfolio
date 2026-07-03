@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { GridCanvas } from "@/components/map/GridCanvas";
+import { WorldMap } from "@/components/map/WorldMap";
 import { Waypoint } from "@/components/map/Waypoint";
 import { ProjectDrawer } from "@/components/map/ProjectDrawer";
 import { useGitHubRepos } from "@/lib/hooks/useGitHubRepos";
@@ -35,7 +35,7 @@ export function ProjectsMap() {
 
   return (
     <div className="relative h-full w-full overflow-hidden">
-      <GridCanvas />
+      <WorldMap />
 
       <div className="absolute inset-0">
         {displayProjects.map((project) => (
