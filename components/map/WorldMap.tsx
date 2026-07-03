@@ -6,9 +6,9 @@ interface WorldMapProps {
 
 export function WorldMap({ showGrid = true }: WorldMapProps) {
   return (
-    <div className="absolute inset-0 overflow-hidden bg-surface">
+    <div className="w-full h-full bg-surface">
       <svg
-        className="absolute inset-0 w-full h-full"
+        className="w-full h-full"
         viewBox="0 0 1200 800"
         xmlns="http://www.w3.org/2000/svg"
         preserveAspectRatio="xMidYMid slice"
