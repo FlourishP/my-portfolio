@@ -36,7 +36,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
-      <body className="h-screen overflow-hidden">
+      <body className="h-screen overflow-hidden bg-surface text-silver font-sans">
         <a href="#main" className="skip-link">
           Skip to content
         </a>
