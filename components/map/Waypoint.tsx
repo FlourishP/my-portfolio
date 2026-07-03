@@ -18,29 +18,19 @@ function hashId(id: string): number {
 
 export function Waypoint({ project, onSelect }: WaypointProps) {
   const variant = hashId(project.id) % 3;
-
   const badgeAlign = variant === 0
     ? "left-0"
     : variant === 1
       ? "right-0"
       : "left-1/2 -translate-x-1/2";
 
-  const badgeTransform = variant === 2
-    ? "translate(-50%, -100%)"
-    : "translateY(-100%)";
-
   return (
     <motion.button
       onClick={() => onSelect(project)}
-      initial={{ scale: 0, opacity: 0, y: -20 }}
-      animate={{ scale: 1, opacity: 1, y: 0 }}
+      initial={{ scale: 0, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
       transition={{ delay: Math.random() * 0.4, type: "spring", stiffness: 300, damping: 22 }}
-      className="absolute z-10 group cursor-pointer focus:z-50 hover:z-50"
-      style={{
-        left: `${project.gridPosition.x}%`,
-        top: `${project.gridPosition.y}%`,
-        transform: "translate(-50%, -100%)",
-      }}
+      className="group cursor-pointer focus:z-50 hover:z-50 relative"
     >
       {/* Pin shadow */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-1.5 rounded-full bg-black/40 blur-[4px] group-hover:w-6 transition-all" />
@@ -62,20 +52,14 @@ export function Waypoint({ project, onSelect }: WaypointProps) {
         </svg>
 
         {/* Permanent badge — always visible */}
-        <div
-          className={`absolute bottom-full mb-1 w-40 sm:w-44 pointer-events-none z-20 ${badgeAlign}`}
-          style={{ transform: badgeTransform }}
-        >
+        <div className={`absolute bottom-full mb-1 w-40 sm:w-44 pointer-events-none z-20 ${badgeAlign}`}>
           <div className="glass-map rounded-lg px-2 py-1.5">
-            {/* Arrow pointing down to pin */}
+            {/* Arrow */}
             <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-t-[4px] border-t-[rgba(5,5,8,0.82)]" />
 
-            {/* Repo name */}
             <p className="text-[9px] sm:text-[10px] font-display font-bold text-silver truncate leading-tight drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
               {project.title}
             </p>
-
-            {/* Brief summary */}
             <p className="text-[7px] sm:text-[8px] font-mono text-silver/60 mt-0.5 leading-snug line-clamp-1">
               {project.description}
             </p>

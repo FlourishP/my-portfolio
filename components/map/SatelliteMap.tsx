@@ -8,14 +8,6 @@ import "leaflet/dist/leaflet.css";
 const CENTER: [number, number] = [39.8283, -98.5795];
 const INITIAL_ZOOM = 5;
 
-function seededRandom(seed: number) {
-  let s = seed;
-  return () => {
-    s = (s * 16807 + 0) % 2147483647;
-    return (s - 1) / 2147483646;
-  };
-}
-
 function ResizeHandler() {
   const map = useMap();
   useEffect(() => {
@@ -49,16 +41,12 @@ interface ProjectMarkersProps {
 }
 
 function ProjectMarkers({ projects, onProjectSelect }: ProjectMarkersProps) {
-  const seed = Date.now();
-  const rng = seededRandom(seed);
-
   return (
     <>
       {projects.map((project) => {
-        const latOffset = (rng() - 0.5) * 4;
-        const lngOffset = (rng() - 0.5) * 4;
-        const lat = CENTER[0] + latOffset;
-        const lng = CENTER[1] + lngOffset;
+        const { x, y } = project.gridPosition;
+        const lat = CENTER[0] + (0.5 - y / 100) * 4;
+        const lng = CENTER[1] + (x / 100 - 0.5) * 4;
 
         return (
           <CircleMarker
