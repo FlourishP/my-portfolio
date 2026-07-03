@@ -2,6 +2,10 @@ node_modules/
 build/
 dist/
 coverage/
+.next/
+tsconfig.tsbuildinfo
+server.err
+server.log
 .DS_Store
 *.log
 .env*
