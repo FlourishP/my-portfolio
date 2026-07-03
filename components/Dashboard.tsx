@@ -31,7 +31,9 @@ export function Dashboard() {
         </button>
       </div>
 
-      <Viewport activeApp={activeApp} />
+      <div className="min-h-0">
+        <Viewport activeApp={activeApp} />
+      </div>
 
       <div className="hidden md:block">
         <PerformanceHUD />

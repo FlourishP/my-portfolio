@@ -95,7 +95,7 @@ export function ProjectsMap() {
 
   return (
     <div
-      className="relative min-h-full md:h-full w-full overflow-hidden"
+      className="relative h-full w-full"
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
