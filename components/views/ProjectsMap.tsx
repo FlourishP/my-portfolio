@@ -11,10 +11,11 @@ import { useGitHubRepos } from "@/lib/hooks/useGitHubRepos";
 import { INITIAL_PROJECTS } from "@/lib/constants";
 import type { Project } from "@/lib/types";
 
-const MIN_ZOOM = 0.3;
-const MAX_ZOOM = 4;
-const ZOOM_STEP = 0.25;
-const CANVAS_SIZE = 4000;
+const CANVAS_SIZE = 12000;
+const MIN_ZOOM = 0.04;
+const MAX_ZOOM = 6;
+const ZOOM_STEP = 0.12;
+const INITIAL_ZOOM = 0.12;
 
 function seededRandom(seed: number) {
   let s = seed;
@@ -31,10 +32,11 @@ interface ProjectsMapProps {
 export function ProjectsMap({ onShowHud }: ProjectsMapProps) {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const [zoom, setZoom] = useState(1);
+  const [zoom, setZoom] = useState(INITIAL_ZOOM);
   const [showGrid, setShowGrid] = useState(true);
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
+  const [hasInteracted, setHasInteracted] = useState(false);
   const dragStart = useRef({ x: 0, y: 0 });
   const panStart = useRef({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
@@ -62,8 +64,8 @@ export function ProjectsMap({ onShowHud }: ProjectsMapProps) {
     const seed = Date.now();
     const rng = seededRandom(seed);
     return displayProjects.map(() => ({
-      x: 8 + rng() * 74,
-      y: 8 + rng() * 74,
+      x: 46 + rng() * 8,
+      y: 46 + rng() * 8,
     }));
   }, [displayProjects.length]);
 
@@ -71,7 +73,7 @@ export function ProjectsMap({ onShowHud }: ProjectsMapProps) {
     () =>
       displayProjects.map((p, i) => ({
         ...p,
-        gridPosition: randomPositions[i] || { x: 15, y: 15 },
+        gridPosition: randomPositions[i] || { x: 50, y: 50 },
       })),
     [displayProjects, randomPositions]
   );
@@ -93,7 +95,7 @@ export function ProjectsMap({ onShowHud }: ProjectsMapProps) {
   }, []);
 
   const handleCenter = useCallback(() => {
-    setZoom(1);
+    setZoom(INITIAL_ZOOM);
     setPan({ x: 0, y: 0 });
   }, []);
 
@@ -101,19 +103,18 @@ export function ProjectsMap({ onShowHud }: ProjectsMapProps) {
     setShowGrid((g) => !g);
   }, []);
 
-  const handleWheel = useCallback(
-    (e: React.WheelEvent) => {
-      e.preventDefault();
-      const delta = e.deltaY > 0 ? -ZOOM_STEP : ZOOM_STEP;
-      setZoom((z) => Math.min(Math.max(z + delta, MIN_ZOOM), MAX_ZOOM));
-    },
-    []
-  );
+  const handleWheel = useCallback((e: React.WheelEvent) => {
+    e.preventDefault();
+    const delta = e.deltaY > 0 ? -ZOOM_STEP : ZOOM_STEP;
+    setZoom((z) => Math.min(Math.max(z + delta, MIN_ZOOM), MAX_ZOOM));
+    setHasInteracted(true);
+  }, []);
 
   const handlePointerDown = useCallback(
     (e: React.PointerEvent) => {
       if (e.target instanceof HTMLElement && e.target.closest("button, input, a")) return;
       setIsDragging(true);
+      setHasInteracted(true);
       dragStart.current = { x: e.clientX, y: e.clientY };
       panStart.current = { ...pan };
       (e.target as HTMLElement).setPointerCapture(e.pointerId);
@@ -166,7 +167,7 @@ export function ProjectsMap({ onShowHud }: ProjectsMapProps) {
         />
       </div>
 
-      {/* Infinite canvas */}
+      {/* Infinite canvas - Google Maps scale */}
       <div
         className="absolute z-1"
         style={{
@@ -203,7 +204,7 @@ export function ProjectsMap({ onShowHud }: ProjectsMapProps) {
             <span className="truncate">Project Navigator</span>
           </h2>
           <p className="text-[10px] font-mono uppercase tracking-widest text-silver-dim mt-1">
-            {filteredProjects.length} locations &middot; drag to pan
+            {filteredProjects.length} locations &middot; scroll to zoom &middot; drag to pan
           </p>
         </div>
 
@@ -274,10 +275,10 @@ export function ProjectsMap({ onShowHud }: ProjectsMapProps) {
       </div>
 
       {/* Drag hint */}
-      {!isDragging && pan.x === 0 && pan.y === 0 && (
-        <div className="absolute bottom-16 left-1/2 -translate-x-1/2 z-20 glass-premium rounded-full px-3 py-1.5 flex items-center gap-1.5 border border-white/[0.06] opacity-60 pointer-events-none">
+      {!hasInteracted && (
+        <div className="absolute bottom-16 left-1/2 -translate-x-1/2 z-20 glass-premium rounded-full px-3 py-1.5 flex items-center gap-1.5 border border-white/[0.06] opacity-60 pointer-events-none animate-pulse">
           <Move className="w-3 h-3 text-silver-dim" />
-          <span className="text-[9px] font-mono text-silver-dim">Drag to explore</span>
+          <span className="text-[9px] font-mono text-silver-dim">Scroll to zoom &middot; Drag to explore</span>
         </div>
       )}
 
