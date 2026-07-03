@@ -20,11 +20,9 @@ function getInitialView(): ViewType {
 
 export default function Dashboard() {
   const [activeView, setActiveView] = useState<ViewType>("navigation");
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setActiveView(getInitialView());
-    setMounted(true);
   }, []);
 
   const handleNavigate = useCallback((view: ViewType) => {
@@ -41,8 +39,6 @@ export default function Dashboard() {
     window.addEventListener("popstate", handlePopState);
     return () => window.removeEventListener("popstate", handlePopState);
   }, []);
-
-  if (!mounted) return null;
 
   return (
     <>
