@@ -32,7 +32,7 @@ export function Viewport({ activeApp }: ViewportProps) {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -8 }}
           transition={{ duration: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="min-h-full md:absolute md:inset-0 md:h-full relative"
+          className="md:absolute md:inset-0 relative h-full"
         >
           <ActiveView />
         </motion.div>

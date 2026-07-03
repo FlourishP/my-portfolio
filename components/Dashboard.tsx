@@ -31,7 +31,7 @@ export function Dashboard() {
         </button>
       </div>
 
-      <div className="min-h-0">
+      <div className="min-h-0 h-full">
         <Viewport activeApp={activeApp} />
       </div>
 
