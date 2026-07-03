@@ -7,7 +7,7 @@ import { GlassPanel } from "@/components/ui/GlassPanel";
 import { SpotifyModal } from "@/components/views/SpotifyModal";
 import { SKILL_TRACKS } from "@/lib/constants";
 
-export function TechStackPlayer() {
+export function TechStackPlayer({ onShowHud: _onShowHud }: { onShowHud?: (show: boolean) => void }) {
   const [activeTrack, setActiveTrack] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [showSpotifyModal, setShowSpotifyModal] = useState(false);

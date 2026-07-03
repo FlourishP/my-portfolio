@@ -4,7 +4,7 @@ import { ExternalLink, Figma } from "lucide-react";
 import { GlassPanel } from "@/components/ui/GlassPanel";
 import { LINKS } from "@/lib/constants";
 
-export function DesignsView() {
+export function DesignsView({ onShowHud: _onShowHud }: { onShowHud?: (show: boolean) => void }) {
   return (
     <div className="min-h-full md:h-full flex flex-col p-6 pb-24 md:pb-6 gap-5">
       <div className="flex items-center justify-between">

@@ -1,9 +1,10 @@
 function Error({ statusCode }: { statusCode?: number }) {
   return (
-    <div style={{ padding: "2rem", textAlign: "center", fontFamily: "sans-serif" }}>
-      <h1>{statusCode || "Error"}</h1>
-      <p>{statusCode === 404 ? "Page not found" : "An error occurred"}</p>
-    </div>
+    <p>
+      {statusCode
+        ? `An error ${statusCode} occurred on server`
+        : "An error occurred on client"}
+    </p>
   );
 }
 

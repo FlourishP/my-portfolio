@@ -10,9 +10,10 @@ import { AboutSettings } from "@/components/views/AboutSettings";
 
 interface ViewportProps {
   activeApp: ActiveApp;
+  onShowHud?: (show: boolean) => void;
 }
 
-const VIEW_MAP: Record<ActiveApp, React.ComponentType> = {
+const VIEW_MAP: Record<ActiveApp, React.ComponentType<{ onShowHud?: (show: boolean) => void }>> = {
   navigation: ProjectsMap,
   media: TechStackPlayer,
   climate: ContactHUD,
@@ -20,7 +21,7 @@ const VIEW_MAP: Record<ActiveApp, React.ComponentType> = {
   settings: AboutSettings,
 };
 
-export function Viewport({ activeApp }: ViewportProps) {
+export function Viewport({ activeApp, onShowHud }: ViewportProps) {
   const ActiveView = VIEW_MAP[activeApp];
 
   return (
@@ -34,7 +35,7 @@ export function Viewport({ activeApp }: ViewportProps) {
           transition={{ duration: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="md:absolute md:inset-0 relative h-full"
         >
-          <ActiveView />
+          <ActiveView onShowHud={onShowHud} />
         </motion.div>
       </AnimatePresence>
     </div>

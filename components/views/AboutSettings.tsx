@@ -6,7 +6,7 @@ import { GlassPanel } from "@/components/ui/GlassPanel";
 import { useTheme } from "@/lib/hooks/useTheme";
 import { PROFILE, SKILL_TRACKS } from "@/lib/constants";
 
-export function AboutSettings() {
+export function AboutSettings({ onShowHud: _onShowHud }: { onShowHud?: (show: boolean) => void }) {
   const { theme, toggle } = useTheme();
   const [toggles, setToggles] = useState({
     sound: false,

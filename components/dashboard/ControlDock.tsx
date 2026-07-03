@@ -23,14 +23,16 @@ export function ControlDock({ activeApp, onNavigate }: ControlDockProps) {
       {NAV_ITEMS.map(({ id, icon: Icon, label }) => {
         const isActive = activeApp === id;
         return (
-          <button
+          <motion.button
             key={id}
             onClick={() => onNavigate(id)}
             title={label}
-            className={`relative w-11 h-11 rounded-xl flex items-center justify-center transition-all ${
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.92 }}
+            className={`relative w-11 h-11 rounded-xl flex items-center justify-center transition-colors duration-200 ${
               isActive
                 ? "text-coral bg-coral/10"
-                : "text-silver-dim hover:text-silver hover:bg-[#FFFFFF08]"
+                : "text-silver-dim hover:text-silver hover:bg-white/[0.06]"
             }`}
           >
             {isActive && (
@@ -41,7 +43,7 @@ export function ControlDock({ activeApp, onNavigate }: ControlDockProps) {
               />
             )}
             <Icon className="w-5 h-5" />
-          </button>
+          </motion.button>
         );
       })}
 

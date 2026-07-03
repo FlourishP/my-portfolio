@@ -25,12 +25,14 @@ export function MobileDock({ activeApp, onNavigate }: MobileDockProps) {
           {NAV_ITEMS.map(({ id, icon: Icon, label }) => {
             const isActive = activeApp === id;
             return (
-              <button
+              <motion.button
                 key={id}
                 onClick={() => onNavigate(id)}
                 title={label}
-                className={`relative flex flex-col items-center gap-0.5 sm:gap-1 px-2 sm:px-3 py-1.5 sm:py-2 rounded-xl transition-all ${
-                  isActive ? "text-coral" : "text-silver-dim"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.9 }}
+                className={`relative flex flex-col items-center gap-0.5 sm:gap-1 px-2 sm:px-3 py-1.5 sm:py-2 rounded-xl transition-colors duration-200 ${
+                  isActive ? "text-coral" : "text-silver-dim hover:text-silver"
                 }`}
               >
                 {isActive && (
@@ -42,7 +44,7 @@ export function MobileDock({ activeApp, onNavigate }: MobileDockProps) {
                 )}
                 <Icon className="w-4.5 h-4.5 sm:w-5 sm:h-5" />
                 <span className="text-[8px] sm:text-[9px] font-mono">{label}</span>
-              </button>
+              </motion.button>
             );
           })}
         </div>

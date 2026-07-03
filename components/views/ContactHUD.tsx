@@ -20,7 +20,7 @@ const INQUIRY_TYPES = [
   { label: "Consult", value: "consult" },
 ];
 
-export function ContactHUD() {
+export function ContactHUD({ onShowHud: _onShowHud }: { onShowHud?: (show: boolean) => void }) {
   const [inquiryType, setInquiryType] = useState("web");
 
   return (

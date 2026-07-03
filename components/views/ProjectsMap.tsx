@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { Search, Plus, Minus, Crosshair, Layers, MapPin } from "lucide-react";
+import { motion } from "motion/react";
+import { Search, Plus, Minus, Crosshair, Layers, MapPin, BarChart3 } from "lucide-react";
 import { WorldMap } from "@/components/map/WorldMap";
 import { Waypoint } from "@/components/map/Waypoint";
 import { ProjectDrawer } from "@/components/map/ProjectDrawer";
@@ -13,7 +14,11 @@ const MIN_ZOOM = 0.5;
 const MAX_ZOOM = 3;
 const ZOOM_STEP = 0.25;
 
-export function ProjectsMap() {
+interface ProjectsMapProps {
+  onShowHud?: (show: boolean) => void;
+}
+
+export function ProjectsMap({ onShowHud }: ProjectsMapProps) {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [zoom, setZoom] = useState(1);
@@ -119,35 +124,55 @@ export function ProjectsMap() {
         </div>
       </div>
 
-      {/* Zoom controls */}
+      {/* Right controls */}
       <div className="absolute right-3 md:right-4 top-1/2 -translate-y-1/2 z-10 flex flex-col gap-1">
-        <button
+        {/* Developer stats button */}
+        {onShowHud && (
+          <motion.button
+            onClick={() => onShowHud(true)}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            className="glass-premium w-8 h-8 rounded-lg flex items-center justify-center text-silver-dim hover:text-coral hover:bg-coral/10 transition-colors duration-200 md:hidden"
+            title="Developer Stats"
+          >
+            <BarChart3 className="w-3.5 h-3.5" />
+          </motion.button>
+        )}
+        <motion.button
           onClick={handleZoomIn}
-          className="glass-premium w-8 h-8 rounded-lg flex items-center justify-center text-silver-dim hover:text-silver hover:bg-white/5 transition-all active:scale-95"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          className="glass-premium w-8 h-8 rounded-lg flex items-center justify-center text-silver-dim hover:text-silver hover:bg-white/[0.06] transition-colors duration-200"
         >
           <Plus className="w-3.5 h-3.5" />
-        </button>
-        <button
+        </motion.button>
+        <motion.button
           onClick={handleZoomOut}
-          className="glass-premium w-8 h-8 rounded-lg flex items-center justify-center text-silver-dim hover:text-silver hover:bg-white/5 transition-all active:scale-95"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          className="glass-premium w-8 h-8 rounded-lg flex items-center justify-center text-silver-dim hover:text-silver hover:bg-white/[0.06] transition-colors duration-200"
         >
           <Minus className="w-3.5 h-3.5" />
-        </button>
+        </motion.button>
         <div className="w-8 h-px bg-white/5 my-1" />
-        <button
+        <motion.button
           onClick={handleCenter}
-          className="glass-premium w-8 h-8 rounded-lg flex items-center justify-center text-silver-dim hover:text-coral hover:bg-coral/5 transition-all active:scale-95"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          className="glass-premium w-8 h-8 rounded-lg flex items-center justify-center text-silver-dim hover:text-coral hover:bg-coral/10 transition-colors duration-200"
         >
           <Crosshair className="w-3.5 h-3.5" />
-        </button>
-        <button
+        </motion.button>
+        <motion.button
           onClick={handleToggleGrid}
-          className={`glass-premium w-8 h-8 rounded-lg flex items-center justify-center transition-all active:scale-95 ${
-            showGrid ? "text-coral bg-coral/10" : "text-silver-dim hover:text-silver hover:bg-white/5"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          className={`glass-premium w-8 h-8 rounded-lg flex items-center justify-center transition-colors duration-200 ${
+            showGrid ? "text-coral bg-coral/10" : "text-silver-dim hover:text-silver hover:bg-white/[0.06]"
           }`}
         >
           <Layers className="w-3.5 h-3.5" />
-        </button>
+        </motion.button>
         <div className="glass-premium w-8 h-6 rounded-md flex items-center justify-center mt-1">
           <span className="text-[9px] font-mono text-silver-dim">{Math.round(zoom * 100)}%</span>
         </div>

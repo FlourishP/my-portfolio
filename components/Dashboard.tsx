@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { BarChart3 } from "lucide-react";
 import { StatusBar } from "@/components/dashboard/StatusBar";
 import { ControlDock } from "@/components/dashboard/ControlDock";
 import { Viewport } from "@/components/dashboard/Viewport";
@@ -22,17 +21,8 @@ export function Dashboard() {
         <ControlDock activeApp={activeApp} onNavigate={setActiveApp} />
       </div>
 
-      <div className="fixed top-3 right-16 z-50 md:hidden">
-        <button
-          onClick={() => setShowMobileHud(true)}
-          className="w-9 h-9 rounded-xl glass-premium flex items-center justify-center text-silver-dim hover:text-coral transition-colors"
-        >
-          <BarChart3 className="w-4 h-4" />
-        </button>
-      </div>
-
       <div className="min-h-0 h-full">
-        <Viewport activeApp={activeApp} />
+        <Viewport activeApp={activeApp} onShowHud={setShowMobileHud} />
       </div>
 
       <div className="hidden md:block">
