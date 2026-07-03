@@ -6,7 +6,7 @@ export const GITHUB_API_URL = `https://api.github.com/users/${GITHUB_USERNAME}/r
 export const LINKS = {
   github: "https://github.com/FlourishP",
   linkedin: "https://www.linkedin.com/in/silverprincessk",
-  email: "mailto:hello@silverprincessk.com",
+  email: "mailto:princesssilver928@gmail.com",
   whatsapp:
     "https://wa.me/2349018408952?text=Hi%20Princess!%20I%27m%20reaching%20out%20regarding...",
   figma:
