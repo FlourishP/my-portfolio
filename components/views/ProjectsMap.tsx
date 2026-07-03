@@ -34,7 +34,7 @@ export function ProjectsMap() {
   const displayProjects = loading ? INITIAL_PROJECTS : projects;
 
   return (
-    <div className="relative h-full w-full overflow-hidden">
+    <div className="relative min-h-full md:h-full w-full overflow-hidden">
       <WorldMap />
 
       <div className="absolute inset-0">

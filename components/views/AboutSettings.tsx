@@ -18,8 +18,8 @@ export function AboutSettings() {
   }
 
   return (
-    <div className="h-full flex p-6 gap-6">
-      <div className="w-[380px] flex-shrink-0">
+    <div className="min-h-full md:h-full flex flex-col md:flex-row p-6 pb-24 md:pb-6 gap-6">
+      <div className="w-full md:w-[380px] flex-shrink-0">
         <GlassPanel className="h-full p-6 flex flex-col" variant="premium">
           <div className="flex items-center gap-4 mb-6">
             <div className="w-16 h-16 rounded-2xl bg-coral/20 border-2 border-coral/40 flex items-center justify-center">

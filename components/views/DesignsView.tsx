@@ -6,7 +6,7 @@ import { LINKS } from "@/lib/constants";
 
 export function DesignsView() {
   return (
-    <div className="h-full flex flex-col p-6 gap-5">
+    <div className="min-h-full md:h-full flex flex-col p-6 pb-24 md:pb-6 gap-5">
       <div className="flex items-center justify-between">
         <div>
           <h2 className="font-display text-lg font-bold text-silver tracking-tight">

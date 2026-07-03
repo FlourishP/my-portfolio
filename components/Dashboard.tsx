@@ -15,7 +15,7 @@ export function Dashboard() {
   const [showMobileHud, setShowMobileHud] = useState(false);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-[64px_1fr_280px] grid-rows-[48px_1fr] h-screen overflow-hidden bg-mesh-dark">
+    <div className="grid grid-cols-1 md:grid-cols-[64px_1fr_280px] grid-rows-[48px_1fr] h-screen md:overflow-hidden overflow-auto bg-mesh-dark">
       <StatusBar />
 
       <div className="hidden md:block">

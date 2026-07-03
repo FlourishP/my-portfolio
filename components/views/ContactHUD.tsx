@@ -24,8 +24,8 @@ export function ContactHUD() {
   const [inquiryType, setInquiryType] = useState("web");
 
   return (
-    <div className="h-full flex p-6 gap-6">
-      <div className="w-[340px] flex-shrink-0 flex flex-col gap-4">
+    <div className="min-h-full md:h-full flex flex-col md:flex-row p-6 pb-24 md:pb-6 gap-6">
+      <div className="w-full md:w-[340px] flex-shrink-0 flex flex-col gap-4">
         <GlassPanel variant="premium" className="p-5">
           <h3 className="text-[10px] font-mono uppercase tracking-widest text-coral mb-4">
             Communication Channels

@@ -40,7 +40,7 @@ export function TechStackPlayer() {
   }
 
   return (
-    <div className="h-full flex flex-col lg:flex-row p-6 gap-6 relative">
+    <div className="min-h-full md:h-full flex flex-col lg:flex-row p-6 pb-24 md:pb-6 gap-6 relative">
       <div className="lg:w-[320px] flex-shrink-0">
         <GlassPanel className="h-full flex flex-col items-center justify-center p-8 relative overflow-hidden" variant="premium">
           <div className="absolute inset-0 bg-gradient-to-br from-coral/5 to-transparent" />
