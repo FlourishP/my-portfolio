@@ -6,8 +6,8 @@ import L from "leaflet";
 import type { Project } from "@/lib/types";
 import "leaflet/dist/leaflet.css";
 
-const CENTER: [number, number] = [6.5244, 3.3792];
-const INITIAL_ZOOM = 13;
+const CENTER: [number, number] = [39.8283, -98.5795];
+const INITIAL_ZOOM = 5;
 
 function seededRandom(seed: number) {
   let s = seed;
@@ -55,8 +55,8 @@ function ProjectMarkers({ projects }: ProjectMarkersProps) {
   return (
     <>
       {projects.map((project) => {
-        const latOffset = (rng() - 0.5) * 0.05;
-        const lngOffset = (rng() - 0.5) * 0.05;
+        const latOffset = (rng() - 0.5) * 4;
+        const lngOffset = (rng() - 0.5) * 4;
         const lat = CENTER[0] + latOffset;
         const lng = CENTER[1] + lngOffset;
 

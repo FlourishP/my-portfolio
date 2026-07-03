@@ -27,7 +27,7 @@ export function ProjectsMap({ onShowHud }: ProjectsMapProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [zoom, setZoom] = useState(13);
   const [showOverlay, setShowOverlay] = useState(true);
-  const [mapCenter, setMapCenter] = useState<[number, number]>([6.5244, 3.3792]);
+  const [mapCenter, setMapCenter] = useState<[number, number]>([39.8283, -98.5795]);
   const [hasInteracted, setHasInteracted] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const { repos, loading } = useGitHubRepos();
