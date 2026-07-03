@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { GlassPanel } from "@/components/ui/GlassPanel";
 import { DialControl } from "@/components/ui/DialControl";
+import Ferrofluid from "@/components/ui/Ferrofluid";
 import { LINKS } from "@/lib/constants";
 
 const INQUIRY_TYPES = [
@@ -24,8 +25,26 @@ export function ContactHUD({ onShowHud: _onShowHud }: { onShowHud?: (show: boole
   const [inquiryType, setInquiryType] = useState("web");
 
   return (
-    <div className="min-h-full md:h-full flex flex-col md:flex-row p-6 pb-24 md:pb-6 gap-6">
-      <div className="w-full md:w-[340px] flex-shrink-0 flex flex-col gap-4">
+    <div className="min-h-full md:h-full flex flex-col md:flex-row p-6 pb-24 md:pb-6 gap-6 relative">
+      {/* Ferrofluid background */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <Ferrofluid
+          colors={["#FF5733", "#A855F7", "#6C3AED"]}
+          speed={0.2}
+          scale={1.3}
+          turbulence={0.55}
+          fluidity={0.14}
+          rimWidth={0.16}
+          sharpness={2.8}
+          shimmer={0.9}
+          glow={1.6}
+          flowDirection="down"
+          opacity={0.3}
+          mouseInteraction={false}
+        />
+      </div>
+
+      <div className="w-full md:w-[340px] flex-shrink-0 flex flex-col gap-4 relative z-10">
         <GlassPanel variant="premium" className="p-5">
           <h3 className="text-[10px] font-mono uppercase tracking-widest text-coral mb-4 glow-coral-text">
             Communication Channels
@@ -83,7 +102,7 @@ export function ContactHUD({ onShowHud: _onShowHud }: { onShowHud?: (show: boole
         </GlassPanel>
       </div>
 
-      <div className="flex-1">
+      <div className="flex-1 relative z-10">
         <GlassPanel variant="premium" className="h-full p-6 flex flex-col">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-[10px] font-mono uppercase tracking-widest text-coral glow-coral-text">

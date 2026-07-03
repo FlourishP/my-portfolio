@@ -3,11 +3,30 @@
 import { ExternalLink, Figma } from "lucide-react";
 import { GlassPanel } from "@/components/ui/GlassPanel";
 import { LINKS } from "@/lib/constants";
+import Ferrofluid from "@/components/ui/Ferrofluid";
 
 export function DesignsView({ onShowHud: _onShowHud }: { onShowHud?: (show: boolean) => void }) {
   return (
-    <div className="min-h-full md:h-full flex flex-col p-6 pb-24 md:pb-6 gap-5">
-      <div className="flex items-center justify-between">
+    <div className="min-h-full md:h-full flex flex-col p-6 pb-24 md:pb-6 gap-5 relative">
+      {/* Ferrofluid background */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <Ferrofluid
+          colors={["#6C3AED", "#FF5733", "#A855F7"]}
+          speed={0.22}
+          scale={1.5}
+          turbulence={0.45}
+          fluidity={0.1}
+          rimWidth={0.2}
+          sharpness={3}
+          shimmer={1.2}
+          glow={2}
+          flowDirection="down"
+          opacity={0.3}
+          mouseInteraction={false}
+        />
+      </div>
+
+      <div className="flex items-center justify-between relative z-10">
         <div>
           <h2 className="font-display text-lg font-bold text-silver tracking-tight">
             Design Portfolio
@@ -28,7 +47,7 @@ export function DesignsView({ onShowHud: _onShowHud }: { onShowHud?: (show: bool
         </a>
       </div>
 
-      <GlassPanel variant="premium" className="flex-1 overflow-hidden relative">
+      <GlassPanel variant="premium" className="flex-1 overflow-hidden relative z-10">
         <iframe
           src={`https://www.figma.com/embed?embed_host=share&url=${encodeURIComponent(
             LINKS.figma

@@ -5,6 +5,7 @@ import { motion } from "motion/react";
 import { GlassPanel } from "@/components/ui/GlassPanel";
 import { useTheme } from "@/lib/hooks/useTheme";
 import { PROFILE, SKILL_TRACKS } from "@/lib/constants";
+import Ferrofluid from "@/components/ui/Ferrofluid";
 
 export function AboutSettings({ onShowHud: _onShowHud }: { onShowHud?: (show: boolean) => void }) {
   const { theme, toggle } = useTheme();
@@ -18,8 +19,26 @@ export function AboutSettings({ onShowHud: _onShowHud }: { onShowHud?: (show: bo
   }
 
   return (
-    <div className="min-h-full md:h-full flex flex-col md:flex-row p-6 pb-24 md:pb-6 gap-6">
-      <div className="w-full md:w-[380px] flex-shrink-0">
+    <div className="min-h-full md:h-full flex flex-col md:flex-row p-6 pb-24 md:pb-6 gap-6 relative">
+      {/* Ferrofluid background */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <Ferrofluid
+          colors={["#A855F7", "#FF5733", "#6C3AED"]}
+          speed={0.28}
+          scale={1.1}
+          turbulence={0.65}
+          fluidity={0.16}
+          rimWidth={0.14}
+          sharpness={3.2}
+          shimmer={0.7}
+          glow={1.4}
+          flowDirection="down"
+          opacity={0.35}
+          mouseInteraction={false}
+        />
+      </div>
+
+      <div className="w-full md:w-[380px] flex-shrink-0 relative z-10">
         <GlassPanel className="h-full p-6 flex flex-col" variant="premium">
           <div className="flex items-center gap-4 mb-6">
             <img
@@ -69,7 +88,7 @@ export function AboutSettings({ onShowHud: _onShowHud }: { onShowHud?: (show: bo
         </GlassPanel>
       </div>
 
-      <div className="flex-1 flex flex-col gap-4">
+      <div className="flex-1 flex flex-col gap-4 relative z-10">
         <GlassPanel className="p-6" variant="premium">
           <h3 className="text-[10px] font-mono uppercase tracking-widest text-coral mb-5 glow-coral-text">
             System Settings

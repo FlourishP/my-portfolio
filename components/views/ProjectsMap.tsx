@@ -6,6 +6,7 @@ import { Search, Plus, Minus, Crosshair, Layers, MapPin, BarChart3 } from "lucid
 import { WorldMap } from "@/components/map/WorldMap";
 import { Waypoint } from "@/components/map/Waypoint";
 import { ProjectDrawer } from "@/components/map/ProjectDrawer";
+import Ferrofluid from "@/components/ui/Ferrofluid";
 import { useGitHubRepos } from "@/lib/hooks/useGitHubRepos";
 import { INITIAL_PROJECTS } from "@/lib/constants";
 import type { Project } from "@/lib/types";
@@ -72,6 +73,24 @@ export function ProjectsMap({ onShowHud }: ProjectsMapProps) {
 
   return (
     <div className="relative h-full w-full overflow-hidden">
+      {/* Ferrofluid background */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <Ferrofluid
+          colors={["#FF5733", "#6C3AED", "#A855F7"]}
+          speed={0.3}
+          scale={1.2}
+          turbulence={0.6}
+          fluidity={0.15}
+          rimWidth={0.15}
+          sharpness={3}
+          shimmer={0.8}
+          glow={1.5}
+          flowDirection="down"
+          opacity={0.35}
+          mouseInteraction={false}
+        />
+      </div>
+
       {/* Map container with zoom */}
       <div
         className="absolute inset-0 transition-transform duration-150 ease-out"

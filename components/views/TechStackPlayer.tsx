@@ -5,6 +5,7 @@ import { motion } from "motion/react";
 import { Play, Pause, SkipBack, SkipForward } from "lucide-react";
 import { GlassPanel } from "@/components/ui/GlassPanel";
 import { SpotifyModal } from "@/components/views/SpotifyModal";
+import Ferrofluid from "@/components/ui/Ferrofluid";
 import { SKILL_TRACKS } from "@/lib/constants";
 
 export function TechStackPlayer({ onShowHud: _onShowHud }: { onShowHud?: (show: boolean) => void }) {
@@ -41,7 +42,25 @@ export function TechStackPlayer({ onShowHud: _onShowHud }: { onShowHud?: (show: 
 
   return (
     <div className="min-h-full md:h-full flex flex-col lg:flex-row p-6 pb-24 md:pb-6 gap-6 relative">
-      <div className="lg:w-[320px] flex-shrink-0">
+      {/* Ferrofluid background */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <Ferrofluid
+          colors={["#A855F7", "#FF5733", "#6C3AED"]}
+          speed={0.25}
+          scale={1.4}
+          turbulence={0.5}
+          fluidity={0.12}
+          rimWidth={0.18}
+          sharpness={2.5}
+          shimmer={1}
+          glow={1.8}
+          flowDirection="down"
+          opacity={0.3}
+          mouseInteraction={false}
+        />
+      </div>
+
+      <div className="lg:w-[320px] flex-shrink-0 relative z-10">
         <GlassPanel className="h-full flex flex-col items-center justify-center p-8 relative overflow-hidden" variant="premium">
           <div className="absolute inset-0 bg-gradient-to-br from-violet/[0.06] via-transparent to-coral/[0.04]" />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 rounded-full border border-coral/15" />
@@ -109,7 +128,7 @@ export function TechStackPlayer({ onShowHud: _onShowHud }: { onShowHud?: (show: 
         </GlassPanel>
       </div>
 
-      <div className="flex-1">
+      <div className="flex-1 relative z-10">
         <GlassPanel className="h-full p-5 flex flex-col" variant="premium">
           <h2 className="font-display text-lg font-bold text-silver mb-1">
             Tech Stack Playlist
