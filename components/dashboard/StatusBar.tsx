@@ -7,7 +7,7 @@ export function StatusBar() {
   const time = useClock();
 
   return (
-    <div className="col-span-3 h-12 bg-panel/80 backdrop-blur-md border-b border-border flex items-center justify-between px-5">
+    <div className="col-span-1 md:col-span-3 h-12 glass-premium border-b border-border flex items-center justify-between px-5 rounded-none">
       <div className="flex items-center gap-3">
         <div className="w-7 h-7 rounded-full bg-coral/20 border border-coral/30 flex items-center justify-center">
           <User className="w-3.5 h-3.5 text-coral" />

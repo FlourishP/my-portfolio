@@ -19,7 +19,7 @@ const NAV_ITEMS: { id: ActiveApp; icon: typeof Map; label: string }[] = [
 
 export function ControlDock({ activeApp, onNavigate }: ControlDockProps) {
   return (
-    <div className="flex flex-col items-center justify-center h-full bg-panel/60 backdrop-blur-md border-r border-border py-6 gap-1 relative">
+    <div className="flex flex-col items-center justify-center h-full glass-premium border-r border-border py-6 gap-1 relative rounded-none">
       {NAV_ITEMS.map(({ id, icon: Icon, label }) => {
         const isActive = activeApp === id;
         return (

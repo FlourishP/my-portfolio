@@ -19,7 +19,7 @@ export function PerformanceHUD() {
 
   return (
     <div className="h-full bg-panel/60 backdrop-blur-md border-l border-border flex flex-col p-4 gap-4 overflow-y-auto">
-      <GlassPanel className="p-4">
+      <GlassPanel variant="premium" className="p-4">
         <h3 className="text-[10px] font-mono uppercase tracking-widest text-coral mb-3">
           Developer Stats
         </h3>
@@ -47,7 +47,7 @@ export function PerformanceHUD() {
         </div>
       </GlassPanel>
 
-      <GlassPanel className="p-4">
+      <GlassPanel variant="premium" className="p-4">
         <h3 className="text-[10px] font-mono uppercase tracking-widest text-coral mb-3">
           Connect
         </h3>
@@ -96,7 +96,7 @@ export function PerformanceHUD() {
         </div>
       </GlassPanel>
 
-      <GlassPanel className="p-4">
+      <GlassPanel variant="premium" className="p-4">
         <h3 className="text-[10px] font-mono uppercase tracking-widest text-coral mb-3">
           Quick Actions
         </h3>

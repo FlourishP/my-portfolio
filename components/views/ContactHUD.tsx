@@ -26,7 +26,7 @@ export function ContactHUD() {
   return (
     <div className="h-full flex p-6 gap-6">
       <div className="w-[340px] flex-shrink-0 flex flex-col gap-4">
-        <GlassPanel className="p-5">
+        <GlassPanel variant="premium" className="p-5">
           <h3 className="text-[10px] font-mono uppercase tracking-widest text-coral mb-4">
             Communication Channels
           </h3>
@@ -75,7 +75,7 @@ export function ContactHUD() {
           </div>
         </GlassPanel>
 
-        <GlassPanel className="p-5 flex-1 flex flex-col items-center justify-center">
+        <GlassPanel variant="premium" className="p-5 flex-1 flex flex-col items-center justify-center">
           <h3 className="text-[10px] font-mono uppercase tracking-widest text-coral mb-4">
             Inquiry Type
           </h3>
@@ -84,7 +84,7 @@ export function ContactHUD() {
       </div>
 
       <div className="flex-1">
-        <GlassPanel className="h-full p-6 flex flex-col">
+        <GlassPanel variant="premium" className="h-full p-6 flex flex-col">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-[10px] font-mono uppercase tracking-widest text-coral">
               Message Console

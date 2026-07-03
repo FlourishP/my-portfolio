@@ -26,7 +26,7 @@ export function ProjectDrawer({ project, onClose }: ProjectDrawerProps) {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="absolute right-0 top-0 h-full w-[380px] bg-panel/95 backdrop-blur-xl border-l border-border z-30 flex flex-col"
+            className="absolute right-0 top-0 h-full w-[380px] glass-premium border-l border-border z-30 flex flex-col rounded-none"
           >
             <div className="flex items-center justify-between p-5 border-b border-border">
               <h3 className="font-display text-lg font-bold text-silver">

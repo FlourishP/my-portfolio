@@ -28,7 +28,7 @@ export function DesignsView() {
         </a>
       </div>
 
-      <GlassPanel className="flex-1 overflow-hidden relative">
+      <GlassPanel variant="premium" className="flex-1 overflow-hidden relative">
         <iframe
           src={`https://www.figma.com/embed?embed_host=share&url=${encodeURIComponent(
             LINKS.figma
