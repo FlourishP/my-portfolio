@@ -23,13 +23,13 @@ export function DialControl({ options, onChange }: DialControlProps) {
 
   return (
     <div className="flex flex-col items-center gap-4">
-      <div className="relative w-24 h-24 rounded-full border-2 border-border bg-panel flex items-center justify-center">
-        <div className="absolute w-full h-full rounded-full border border-border/50" />
+      <div className="relative w-24 h-24 rounded-full border-2 border-white/[0.08] bg-panel flex items-center justify-center">
+        <div className="absolute w-full h-full rounded-full border border-white/[0.04]" />
         <div
-          className="absolute w-0.5 h-10 bg-coral rounded-full origin-bottom transition-transform duration-300"
+          className="absolute w-0.5 h-10 bg-gradient-to-t from-coral to-[#FF8C42] rounded-full origin-bottom transition-transform duration-300"
           style={{ transform: `rotate(${rotation}deg)` }}
         />
-        <div className="w-3 h-3 rounded-full bg-coral z-10" />
+        <div className="w-3 h-3 rounded-full bg-coral shadow-[0_0_8px_rgba(255,87,51,0.5)] z-10" />
       </div>
       <div className="flex gap-3">
         {options.map((opt, i) => (
@@ -38,8 +38,8 @@ export function DialControl({ options, onChange }: DialControlProps) {
             onClick={() => handleClick(i)}
             className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
               i === activeIndex
-                ? "bg-coral/20 text-coral border border-coral/30"
-                : "bg-[#FFFFFF08] text-silver-dim border border-border hover:text-silver"
+                ? "bg-coral/20 text-coral border border-coral/30 shadow-[0_0_8px_rgba(255,87,51,0.15)]"
+                : "bg-white/[0.04] text-silver-dim border border-white/[0.06] hover:text-silver"
             }`}
           >
             {opt.label}

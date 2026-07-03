@@ -19,22 +19,22 @@ export function ProjectDrawer({ project, onClose }: ProjectDrawerProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-black/40 backdrop-blur-sm z-20"
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm z-20"
           />
           <motion.div
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="absolute right-0 top-0 h-full w-[380px] glass-premium border-l border-border z-30 flex flex-col rounded-none"
+            className="absolute right-0 top-0 h-full w-[380px] glass-premium border-l border-white/[0.06] z-30 flex flex-col rounded-none"
           >
-            <div className="flex items-center justify-between p-5 border-b border-border">
+            <div className="flex items-center justify-between p-5 border-b border-white/[0.06]">
               <h3 className="font-display text-lg font-bold text-silver">
                 {project.title}
               </h3>
               <button
                 onClick={onClose}
-                className="w-8 h-8 rounded-lg bg-[#FFFFFF08] border border-border flex items-center justify-center text-silver-dim hover:text-silver hover:border-coral/30 transition-all"
+                className="w-8 h-8 rounded-lg bg-white/[0.04] border border-white/[0.06] flex items-center justify-center text-silver-dim hover:text-silver hover:border-coral/40 transition-all"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -59,7 +59,7 @@ export function ProjectDrawer({ project, onClose }: ProjectDrawerProps) {
                   {project.techStack.map((tech) => (
                     <span
                       key={tech}
-                      className="px-2.5 py-1 rounded-lg bg-[#FFFFFF08] border border-border text-xs text-silver/70"
+                      className="px-2.5 py-1 rounded-lg bg-white/[0.04] border border-white/[0.06] text-xs text-silver/70"
                     >
                       {tech}
                     </span>
@@ -79,7 +79,7 @@ export function ProjectDrawer({ project, onClose }: ProjectDrawerProps) {
                         className="h-full"
                         style={{
                           width: `${pct}%`,
-                          backgroundColor: i === 0 ? "#F97066" : i === 1 ? "#F9706680" : "#F9706640",
+                          backgroundColor: i === 0 ? "#FF5733" : i === 1 ? "#FF573380" : "#FF573340",
                         }}
                       />
                     ))}
@@ -95,13 +95,13 @@ export function ProjectDrawer({ project, onClose }: ProjectDrawerProps) {
               )}
             </div>
 
-            <div className="p-5 border-t border-border flex gap-3">
+            <div className="p-5 border-t border-white/[0.06] flex gap-3">
               {project.liveUrl && (
                 <a
                   href={project.liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-coral text-surface font-display font-bold text-xs hover:bg-coral/90 transition-colors"
+                  className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-gradient-to-r from-coral to-[#FF8C42] text-surface font-display font-bold text-xs hover:shadow-[0_0_16px_rgba(255,87,51,0.4)] transition-shadow"
                 >
                   <ArrowUpRight className="w-3.5 h-3.5" />
                   Live Preview
@@ -111,7 +111,7 @@ export function ProjectDrawer({ project, onClose }: ProjectDrawerProps) {
                 href={project.repoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-[#FFFFFF08] border border-border text-silver font-display font-bold text-xs hover:border-coral/30 transition-all"
+                className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.06] text-silver font-display font-bold text-xs hover:border-coral/30 hover:bg-white/[0.06] transition-all"
               >
                 <Github className="w-3.5 h-3.5" />
                 Repository

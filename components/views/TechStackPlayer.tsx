@@ -43,17 +43,29 @@ export function TechStackPlayer({ onShowHud: _onShowHud }: { onShowHud?: (show: 
     <div className="min-h-full md:h-full flex flex-col lg:flex-row p-6 pb-24 md:pb-6 gap-6 relative">
       <div className="lg:w-[320px] flex-shrink-0">
         <GlassPanel className="h-full flex flex-col items-center justify-center p-8 relative overflow-hidden" variant="premium">
-          <div className="absolute inset-0 bg-gradient-to-br from-coral/5 to-transparent" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 rounded-full border border-coral/20" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-56 h-56 rounded-full border border-coral/10" />
+          <div className="absolute inset-0 bg-gradient-to-br from-violet/[0.06] via-transparent to-coral/[0.04]" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 rounded-full border border-coral/15" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-56 h-56 rounded-full border border-violet/10" />
 
-          {/* Vinyl record - spins when playing */}
-          <div className={`relative z-10 w-32 h-32 rounded-full bg-coral/10 border-2 border-coral/40 flex items-center justify-center mb-6 shadow-[0_0_40px_#F9706630] ${isPlaying ? "animate-spin-slow" : ""}`}>
-            <div className="w-6 h-6 rounded-full bg-surface border-2 border-coral" />
+          {/* Metallic vinyl record - spins when playing */}
+          <div className={`relative z-10 w-32 h-32 rounded-full flex items-center justify-center mb-6 ${isPlaying ? "animate-spin-slow" : ""}`}>
+            {/* Vinyl body - dark metallic */}
+            <div className="absolute inset-0 rounded-full bg-[#0A0A12] border border-white/[0.08] shadow-[0_0_40px_rgba(255,87,51,0.2),inset_0_2px_4px_rgba(255,255,255,0.05)]" />
+            {/* Vinyl sheen overlay */}
+            <div className="absolute inset-0 rounded-full vinyl-sheen opacity-60" />
+            {/* Grooves */}
+            <div className="absolute inset-2 rounded-full border border-white/[0.04]" />
+            <div className="absolute inset-4 rounded-full border border-white/[0.03]" />
+            <div className="absolute inset-6 rounded-full border border-white/[0.04]" />
+            <div className="absolute inset-8 rounded-full border border-white/[0.03]" />
+            {/* Center label - gradient coral */}
+            <div className="relative z-10 w-10 h-10 rounded-full bg-gradient-to-br from-coral to-[#FF8C42] flex items-center justify-center shadow-[0_0_16px_rgba(255,87,51,0.5)]">
+              <div className="w-2 h-2 rounded-full bg-[#0A0A12]" />
+            </div>
           </div>
 
           <div className="relative z-10 text-center">
-            <p className="text-[10px] font-mono uppercase tracking-widest text-coral mb-1">
+            <p className="text-[10px] font-mono uppercase tracking-widest text-coral mb-1 glow-coral-text">
               Now Playing
             </p>
             <h3 className="font-display text-xl font-bold text-silver mb-1">
@@ -64,10 +76,11 @@ export function TechStackPlayer({ onShowHud: _onShowHud }: { onShowHud?: (show: 
             </p>
           </div>
 
+          {/* Progress bar with gradient */}
           <div className="relative z-10 w-full mt-6">
-            <div className="w-full h-1 rounded-full bg-surface overflow-hidden">
+            <div className="w-full h-1 rounded-full bg-white/[0.06] overflow-hidden">
               <motion.div
-                className="h-full bg-coral rounded-full"
+                className="h-full rounded-full bg-gradient-to-r from-violet via-coral to-[#FF8C42]"
                 animate={{ width: isPlaying ? "100%" : "0%" }}
                 transition={{ duration: 30, ease: "linear" }}
               />
@@ -78,13 +91,14 @@ export function TechStackPlayer({ onShowHud: _onShowHud }: { onShowHud?: (show: 
             </div>
           </div>
 
+          {/* Playback controls */}
           <div className="relative z-10 flex items-center gap-6 mt-4">
             <button onClick={handlePrev} className="text-silver-dim hover:text-silver transition-colors">
               <SkipBack className="w-5 h-5" />
             </button>
             <button
               onClick={handleMainPlay}
-              className="w-12 h-12 rounded-full bg-coral flex items-center justify-center text-surface hover:bg-coral/90 transition-colors shadow-[0_0_20px_#F9706640]"
+              className="w-12 h-12 rounded-full bg-gradient-to-br from-coral to-[#FF8C42] flex items-center justify-center text-surface hover:shadow-[0_0_24px_rgba(255,87,51,0.5)] transition-shadow"
             >
               {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 ml-0.5" />}
             </button>
@@ -115,7 +129,7 @@ export function TechStackPlayer({ onShowHud: _onShowHud }: { onShowHud?: (show: 
                   className={`w-full flex items-center gap-4 px-4 py-3 rounded-xl transition-all text-left ${
                     isActive
                       ? "bg-coral/10 border border-coral/30"
-                      : "bg-transparent border border-transparent hover:bg-[#FFFFFF08]"
+                      : "bg-transparent border border-transparent hover:bg-white/[0.04]"
                   }`}
                 >
                   <span
@@ -125,11 +139,11 @@ export function TechStackPlayer({ onShowHud: _onShowHud }: { onShowHud?: (show: 
                   >
                     {isActive && isPlaying ? (
                       <span className="inline-flex gap-[2px] items-end h-3">
-                        <span className="w-[3px] bg-coral rounded-full animate-eq-1" />
-                        <span className="w-[3px] bg-coral rounded-full animate-eq-2" />
-                        <span className="w-[3px] bg-coral rounded-full animate-eq-3" />
-                        <span className="w-[3px] bg-coral rounded-full animate-eq-4" />
-                        <span className="w-[3px] bg-coral rounded-full animate-eq-5" />
+                        <span className="w-[3px] rounded-full animate-eq-1 bg-gradient-to-t from-violet to-coral" />
+                        <span className="w-[3px] rounded-full animate-eq-2 bg-gradient-to-t from-violet to-coral" />
+                        <span className="w-[3px] rounded-full animate-eq-3 bg-gradient-to-t from-violet to-coral" />
+                        <span className="w-[3px] rounded-full animate-eq-4 bg-gradient-to-t from-violet to-coral" />
+                        <span className="w-[3px] rounded-full animate-eq-5 bg-gradient-to-t from-violet to-coral" />
                       </span>
                     ) : (
                       track.number
@@ -149,11 +163,11 @@ export function TechStackPlayer({ onShowHud: _onShowHud }: { onShowHud?: (show: 
 
                   {isActive && isPlaying && (
                     <div className="flex items-end gap-[2px] h-4">
-                      <span className="w-[3px] bg-coral rounded-full animate-eq-1" />
-                      <span className="w-[3px] bg-coral rounded-full animate-eq-2" />
-                      <span className="w-[3px] bg-coral rounded-full animate-eq-3" />
-                      <span className="w-[3px] bg-coral rounded-full animate-eq-4" />
-                      <span className="w-[3px] bg-coral rounded-full animate-eq-5" />
+                      <span className="w-[3px] rounded-full animate-eq-1 bg-gradient-to-t from-violet to-coral" />
+                      <span className="w-[3px] rounded-full animate-eq-2 bg-gradient-to-t from-violet to-coral" />
+                      <span className="w-[3px] rounded-full animate-eq-3 bg-gradient-to-t from-violet to-coral" />
+                      <span className="w-[3px] rounded-full animate-eq-4 bg-gradient-to-t from-violet to-coral" />
+                      <span className="w-[3px] rounded-full animate-eq-5 bg-gradient-to-t from-violet to-coral" />
                     </div>
                   )}
                 </motion.button>

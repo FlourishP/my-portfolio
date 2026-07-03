@@ -22,12 +22,12 @@ export function StatusBar() {
   }, []);
 
   return (
-    <div className="col-span-1 md:col-span-3 h-11 sm:h-12 glass-premium border-b border-border flex items-center justify-between px-3 sm:px-5 rounded-none safe-area-top">
+    <div className="col-span-1 md:col-span-3 h-11 sm:h-12 glass-premium border-b border-white/[0.06] flex items-center justify-between px-3 sm:px-5 rounded-none safe-area-top relative z-20">
       <div className="flex items-center gap-2 sm:gap-3 min-w-0">
         <img
           src={avatarUrl}
           alt="GitHub avatar"
-          className="w-6 h-6 sm:w-7 sm:h-7 rounded-full border border-coral/30 object-cover flex-shrink-0"
+          className="w-6 h-6 sm:w-7 sm:h-7 rounded-full border border-coral/40 object-cover flex-shrink-0 shadow-[0_0_8px_rgba(255,87,51,0.3)]"
           onError={(e) => {
             e.currentTarget.style.display = "none";
           }}
@@ -50,7 +50,7 @@ export function StatusBar() {
           <Battery className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-silver/60" />
           <span className="text-[10px] font-mono text-silver/60">87%</span>
         </div>
-        <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_#34d39980]" />
+        <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d39980]" />
       </div>
     </div>
   );

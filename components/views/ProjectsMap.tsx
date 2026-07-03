@@ -112,7 +112,7 @@ export function ProjectsMap({ onShowHud }: ProjectsMapProps) {
           </p>
         </div>
 
-        <div className="glass-premium rounded-xl px-3 py-2 flex items-center gap-2 w-40 sm:w-48 md:w-52 flex-shrink-0">
+        <div className="glass-premium rounded-xl px-3 py-2 flex items-center gap-2 w-40 sm:w-48 md:w-52 flex-shrink-0 border border-white/[0.06]">
           <Search className="w-3.5 h-3.5 text-silver-dim flex-shrink-0" />
           <input
             type="text"
@@ -132,7 +132,7 @@ export function ProjectsMap({ onShowHud }: ProjectsMapProps) {
             onClick={() => onShowHud(true)}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            className="glass-premium w-8 h-8 rounded-lg flex items-center justify-center text-silver-dim hover:text-coral hover:bg-coral/10 transition-colors duration-200 md:hidden"
+            className="glass-premium w-8 h-8 rounded-lg flex items-center justify-center text-silver-dim hover:text-coral hover:bg-coral/10 hover:shadow-[0_0_8px_rgba(255,87,51,0.2)] border border-white/[0.06] transition-all md:hidden"
             title="Developer Stats"
           >
             <BarChart3 className="w-3.5 h-3.5" />
@@ -142,7 +142,7 @@ export function ProjectsMap({ onShowHud }: ProjectsMapProps) {
           onClick={handleZoomIn}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
-          className="glass-premium w-8 h-8 rounded-lg flex items-center justify-center text-silver-dim hover:text-silver hover:bg-white/[0.06] transition-colors duration-200"
+          className="glass-premium w-8 h-8 rounded-lg flex items-center justify-center text-silver-dim hover:text-silver hover:bg-white/[0.06] border border-white/[0.06] transition-all"
         >
           <Plus className="w-3.5 h-3.5" />
         </motion.button>
@@ -150,16 +150,16 @@ export function ProjectsMap({ onShowHud }: ProjectsMapProps) {
           onClick={handleZoomOut}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
-          className="glass-premium w-8 h-8 rounded-lg flex items-center justify-center text-silver-dim hover:text-silver hover:bg-white/[0.06] transition-colors duration-200"
+          className="glass-premium w-8 h-8 rounded-lg flex items-center justify-center text-silver-dim hover:text-silver hover:bg-white/[0.06] border border-white/[0.06] transition-all"
         >
           <Minus className="w-3.5 h-3.5" />
         </motion.button>
-        <div className="w-8 h-px bg-white/5 my-1" />
+        <div className="w-8 h-px bg-white/[0.06] my-1" />
         <motion.button
           onClick={handleCenter}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
-          className="glass-premium w-8 h-8 rounded-lg flex items-center justify-center text-silver-dim hover:text-coral hover:bg-coral/10 transition-colors duration-200"
+          className="glass-premium w-8 h-8 rounded-lg flex items-center justify-center text-silver-dim hover:text-coral hover:bg-coral/10 hover:shadow-[0_0_8px_rgba(255,87,51,0.2)] border border-white/[0.06] transition-all"
         >
           <Crosshair className="w-3.5 h-3.5" />
         </motion.button>
@@ -167,23 +167,23 @@ export function ProjectsMap({ onShowHud }: ProjectsMapProps) {
           onClick={handleToggleGrid}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
-          className={`glass-premium w-8 h-8 rounded-lg flex items-center justify-center transition-colors duration-200 ${
-            showGrid ? "text-coral bg-coral/10" : "text-silver-dim hover:text-silver hover:bg-white/[0.06]"
+          className={`glass-premium w-8 h-8 rounded-lg flex items-center justify-center border border-white/[0.06] transition-all ${
+            showGrid ? "text-coral bg-coral/10 shadow-[0_0_8px_rgba(255,87,51,0.2)]" : "text-silver-dim hover:text-silver hover:bg-white/[0.06]"
           }`}
         >
           <Layers className="w-3.5 h-3.5" />
         </motion.button>
-        <div className="glass-premium w-8 h-6 rounded-md flex items-center justify-center mt-1">
+        <div className="glass-premium w-8 h-6 rounded-md flex items-center justify-center mt-1 border border-white/[0.06]">
           <span className="text-[9px] font-mono text-silver-dim">{Math.round(zoom * 100)}%</span>
         </div>
       </div>
 
       {/* Bottom status bar */}
       <div className="absolute bottom-0 left-0 right-0 z-10 p-3">
-        <div className="glass-premium rounded-xl px-4 py-2.5 flex items-center justify-between">
+        <div className="glass-premium rounded-xl px-4 py-2.5 flex items-center justify-between border border-white/[0.06]">
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-1.5">
-              <div className="w-2 h-2 rounded-full bg-coral animate-pulse" />
+              <div className="w-2 h-2 rounded-full bg-coral animate-pulse shadow-[0_0_6px_rgba(255,87,51,0.5)]" />
               <span className="text-[10px] font-mono text-silver-dim">Live</span>
             </div>
             <div className="text-[10px] font-mono text-silver-dim">

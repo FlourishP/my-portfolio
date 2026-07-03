@@ -14,14 +14,18 @@ export function Dashboard() {
   const [showMobileHud, setShowMobileHud] = useState(false);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-[64px_1fr_280px] grid-rows-[auto_1fr] h-dvh md:h-screen md:overflow-hidden overflow-auto bg-mesh-dark">
+    <div className="grid grid-cols-1 md:grid-cols-[64px_1fr_280px] grid-rows-[auto_1fr] h-dvh md:h-screen md:overflow-hidden overflow-auto bg-mesh-dark relative">
+      {/* Ambient glow blobs */}
+      <div className="ambient-blob-indigo" />
+      <div className="ambient-blob-coral" />
+
       <StatusBar />
 
       <div className="hidden md:block">
         <ControlDock activeApp={activeApp} onNavigate={setActiveApp} />
       </div>
 
-      <div className="min-h-0 h-full">
+      <div className="min-h-0 h-full relative z-10">
         <Viewport activeApp={activeApp} onShowHud={setShowMobileHud} />
       </div>
 

@@ -22,8 +22,8 @@ export function AboutSettings({ onShowHud: _onShowHud }: { onShowHud?: (show: bo
       <div className="w-full md:w-[380px] flex-shrink-0">
         <GlassPanel className="h-full p-6 flex flex-col" variant="premium">
           <div className="flex items-center gap-4 mb-6">
-            <div className="w-16 h-16 rounded-2xl bg-coral/20 border-2 border-coral/40 flex items-center justify-center">
-              <span className="font-display text-2xl font-bold text-coral">SP</span>
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-coral to-[#FF8C42] border-2 border-coral/40 flex items-center justify-center shadow-[0_0_20px_rgba(255,87,51,0.3)]">
+              <span className="font-display text-2xl font-bold text-surface">SP</span>
             </div>
             <div>
               <h2 className="font-display text-xl font-bold text-silver">
@@ -42,7 +42,7 @@ export function AboutSettings({ onShowHud: _onShowHud }: { onShowHud?: (show: bo
               <span className="text-xs text-silver-dim">Company</span>
               <span className="text-xs text-silver">{PROFILE.company}</span>
             </div>
-            <div className="w-full h-px bg-border" />
+            <div className="w-full h-px bg-white/[0.06]" />
             <div className="flex justify-between">
               <span className="text-xs text-silver-dim">Location</span>
               <span className="text-xs text-silver">{PROFILE.location}</span>
@@ -50,14 +50,14 @@ export function AboutSettings({ onShowHud: _onShowHud }: { onShowHud?: (show: bo
           </div>
 
           <div>
-            <h3 className="text-[10px] font-mono uppercase tracking-widest text-coral mb-3">
+            <h3 className="text-[10px] font-mono uppercase tracking-widest text-coral mb-3 glow-coral-text">
               Core Skills
             </h3>
             <div className="flex flex-wrap gap-2">
               {SKILL_TRACKS.map((s) => (
                 <span
                   key={s.name}
-                  className="px-2.5 py-1 rounded-lg bg-[#FFFFFF08] border border-border text-[11px] text-silver/70"
+                  className="px-2.5 py-1 rounded-lg bg-white/[0.04] border border-white/[0.06] text-[11px] text-silver/70"
                 >
                   {s.name}
                 </span>
@@ -69,17 +69,17 @@ export function AboutSettings({ onShowHud: _onShowHud }: { onShowHud?: (show: bo
 
       <div className="flex-1 flex flex-col gap-4">
         <GlassPanel className="p-6" variant="premium">
-          <h3 className="text-[10px] font-mono uppercase tracking-widest text-coral mb-5">
+          <h3 className="text-[10px] font-mono uppercase tracking-widest text-coral mb-5 glow-coral-text">
             System Settings
           </h3>
           <div className="space-y-4">
-            {/* Dark Mode toggle — wired to theme context */}
-            <div className="flex items-center justify-between py-3 border-b border-border last:border-0">
+            {/* Dark Mode toggle */}
+            <div className="flex items-center justify-between py-3 border-b border-white/[0.06] last:border-0">
               <span className="text-sm text-silver">Dark Mode</span>
               <button
                 onClick={toggle}
                 className={`relative w-12 h-6 rounded-full transition-colors cursor-pointer ${
-                  theme === "dark" ? "bg-coral" : "bg-surface border border-border"
+                  theme === "dark" ? "bg-gradient-to-r from-coral to-[#FF8C42]" : "bg-surface border border-white/[0.06]"
                 }`}
               >
                 <motion.div
@@ -91,12 +91,12 @@ export function AboutSettings({ onShowHud: _onShowHud }: { onShowHud?: (show: bo
             </div>
 
             {/* Sound Effects toggle */}
-            <div className="flex items-center justify-between py-3 border-b border-border last:border-0">
+            <div className="flex items-center justify-between py-3 border-b border-white/[0.06] last:border-0">
               <span className="text-sm text-silver">Sound Effects</span>
               <button
                 onClick={() => handleToggle("sound")}
                 className={`relative w-12 h-6 rounded-full transition-colors cursor-pointer ${
-                  toggles.sound ? "bg-coral" : "bg-surface border border-border"
+                  toggles.sound ? "bg-gradient-to-r from-coral to-[#FF8C42]" : "bg-surface border border-white/[0.06]"
                 }`}
               >
                 <motion.div
@@ -108,12 +108,12 @@ export function AboutSettings({ onShowHud: _onShowHud }: { onShowHud?: (show: bo
             </div>
 
             {/* Animations toggle */}
-            <div className="flex items-center justify-between py-3 border-b border-border last:border-0">
+            <div className="flex items-center justify-between py-3 border-b border-white/[0.06] last:border-0">
               <span className="text-sm text-silver">Animations</span>
               <button
                 onClick={() => handleToggle("animations")}
                 className={`relative w-12 h-6 rounded-full transition-colors cursor-pointer ${
-                  toggles.animations ? "bg-coral" : "bg-surface border border-border"
+                  toggles.animations ? "bg-gradient-to-r from-coral to-[#FF8C42]" : "bg-surface border border-white/[0.06]"
                 }`}
               >
                 <motion.div
@@ -127,8 +127,8 @@ export function AboutSettings({ onShowHud: _onShowHud }: { onShowHud?: (show: bo
         </GlassPanel>
 
         <GlassPanel className="p-6 flex-1 flex flex-col justify-center items-center text-center" variant="premium">
-          <div className="w-16 h-16 rounded-2xl bg-coral/10 border border-coral/20 flex items-center justify-center mb-4">
-            <span className="font-display text-2xl font-bold text-coral">SP</span>
+          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-coral to-[#FF8C42] border border-coral/20 flex items-center justify-center mb-4 shadow-[0_0_20px_rgba(255,87,51,0.3)]">
+            <span className="font-display text-2xl font-bold text-surface">SP</span>
           </div>
           <h3 className="font-display text-lg font-bold text-silver mb-1">
             Silver Princess K.
@@ -140,7 +140,7 @@ export function AboutSettings({ onShowHud: _onShowHud }: { onShowHud?: (show: bo
             <div className="px-3 py-1 rounded-lg bg-coral/10 border border-coral/30 text-[10px] font-mono text-coral">
               Othryn Ventures LTD
             </div>
-            <div className="px-3 py-1 rounded-lg bg-[#FFFFFF08] border border-border text-[10px] font-mono text-silver-dim">
+            <div className="px-3 py-1 rounded-lg bg-white/[0.04] border border-white/[0.06] text-[10px] font-mono text-silver-dim">
               Remote
             </div>
           </div>

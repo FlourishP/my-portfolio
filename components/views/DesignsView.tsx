@@ -20,7 +20,7 @@ export function DesignsView({ onShowHud: _onShowHud }: { onShowHud?: (show: bool
           href={LINKS.figma}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-coral/10 border border-coral/30 text-coral text-xs font-display font-bold hover:bg-coral/20 transition-all"
+          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-coral/10 border border-coral/30 text-coral text-xs font-display font-bold hover:bg-coral/20 hover:shadow-[0_0_12px_rgba(255,87,51,0.2)] transition-all"
         >
           <Figma className="w-3.5 h-3.5" />
           Open in Figma

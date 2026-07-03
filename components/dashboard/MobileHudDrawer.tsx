@@ -19,7 +19,7 @@ export function MobileHudDrawer({ isOpen, onClose }: MobileHudDrawerProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 md:hidden"
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden"
           />
           <motion.div
             initial={{ x: "100%" }}
@@ -31,7 +31,7 @@ export function MobileHudDrawer({ isOpen, onClose }: MobileHudDrawerProps) {
             <div className="relative h-full">
               <button
                 onClick={onClose}
-                className="absolute top-4 right-4 z-10 w-8 h-8 rounded-lg bg-[#FFFFFF08] border border-border flex items-center justify-center text-silver-dim hover:text-silver transition-colors"
+                className="absolute top-4 right-4 z-10 w-8 h-8 rounded-lg bg-white/[0.04] border border-white/[0.06] flex items-center justify-center text-silver-dim hover:text-silver hover:border-coral/40 transition-all"
               >
                 <X className="w-4 h-4" />
               </button>

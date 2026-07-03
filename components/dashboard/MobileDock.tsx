@@ -20,7 +20,7 @@ const NAV_ITEMS: { id: ActiveApp; icon: typeof Map; label: string }[] = [
 export function MobileDock({ activeApp, onNavigate }: MobileDockProps) {
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden safe-area-bottom">
-      <div className="glass-premium rounded-t-2xl px-2 sm:px-4 pt-2 pb-2 sm:pb-3">
+      <div className="glass-premium rounded-t-2xl px-2 sm:px-4 pt-2 pb-2 sm:pb-3 border-t border-white/[0.06]">
         <div className="flex items-center justify-around">
           {NAV_ITEMS.map(({ id, icon: Icon, label }) => {
             const isActive = activeApp === id;
@@ -38,7 +38,7 @@ export function MobileDock({ activeApp, onNavigate }: MobileDockProps) {
                 {isActive && (
                   <motion.div
                     layoutId="mobile-dock-indicator"
-                    className="absolute -top-1 w-5 h-0.5 bg-coral rounded-full"
+                    className="absolute -top-1 w-5 h-0.5 bg-coral rounded-full shadow-[0_0_6px_rgba(255,87,51,0.5)]"
                     transition={{ type: "spring", stiffness: 350, damping: 30 }}
                   />
                 )}
