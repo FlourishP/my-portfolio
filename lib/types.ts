@@ -40,3 +40,5 @@ export interface SkillTrack {
   name: string;
   category: string;
 }
+
+export type Theme = "dark" | "light";
