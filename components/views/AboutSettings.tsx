@@ -22,9 +22,11 @@ export function AboutSettings({ onShowHud: _onShowHud }: { onShowHud?: (show: bo
       <div className="w-full md:w-[380px] flex-shrink-0">
         <GlassPanel className="h-full p-6 flex flex-col" variant="premium">
           <div className="flex items-center gap-4 mb-6">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-coral to-[#FF8C42] border-2 border-coral/40 flex items-center justify-center shadow-[0_0_20px_rgba(255,87,51,0.3)]">
-              <span className="font-display text-2xl font-bold text-surface">SP</span>
-            </div>
+            <img
+              src="https://github.com/FlourishP.png"
+              alt="Princess"
+              className="w-16 h-16 rounded-2xl border-2 border-coral/40 object-cover shadow-[0_0_20px_rgba(255,87,51,0.3)]"
+            />
             <div>
               <h2 className="font-display text-xl font-bold text-silver">
                 {PROFILE.name}
@@ -127,9 +129,11 @@ export function AboutSettings({ onShowHud: _onShowHud }: { onShowHud?: (show: bo
         </GlassPanel>
 
         <GlassPanel className="p-6 flex-1 flex flex-col justify-center items-center text-center" variant="premium">
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-coral to-[#FF8C42] border border-coral/20 flex items-center justify-center mb-4 shadow-[0_0_20px_rgba(255,87,51,0.3)]">
-            <span className="font-display text-2xl font-bold text-surface">SP</span>
-          </div>
+          <img
+            src="https://github.com/FlourishP.png"
+            alt="Princess"
+            className="w-16 h-16 rounded-2xl border border-coral/20 object-cover mb-4 shadow-[0_0_20px_rgba(255,87,51,0.3)]"
+          />
           <h3 className="font-display text-lg font-bold text-silver mb-1">
             Silver Princess K.
           </h3>
