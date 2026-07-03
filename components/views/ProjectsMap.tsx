@@ -1,22 +1,13 @@
 "use client";
 
-import { useState, useCallback, useRef, useMemo } from "react";
+import { useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Search, Layers, MapPin, BarChart3, Move, ExternalLink, Github, X } from "lucide-react";
 import { SatelliteMap } from "@/components/map/SatelliteMap";
-import { Waypoint } from "@/components/map/Waypoint";
 import { FerrofluidWrapper } from "@/components/ui/FerrofluidWrapper";
 import { useGitHubRepos } from "@/lib/hooks/useGitHubRepos";
 import { INITIAL_PROJECTS } from "@/lib/constants";
 import type { Project } from "@/lib/types";
-
-function seededRandom(seed: number) {
-  let s = seed;
-  return () => {
-    s = (s * 16807 + 0) % 2147483647;
-    return (s - 1) / 2147483646;
-  };
-}
 
 interface ProjectsMapProps {
   onShowHud?: (show: boolean) => void;
@@ -59,28 +50,6 @@ export function ProjectsMap({ onShowHud }: ProjectsMapProps) {
       )
     : displayProjects;
 
-  // Shared pin positions — same seed, same RNG, used by both SatelliteMap and Waypoints
-  const pinPositions = useMemo(() => {
-    const seed = 1719000000000; // fixed seed so positions are consistent across renders
-    const rng = seededRandom(seed);
-    return filteredProjects.map(() => ({
-      latPct: rng(), // 0-1 percentage for lat offset
-      lngPct: rng(), // 0-1 percentage for lng offset
-    }));
-  }, [filteredProjects.length]);
-
-  const projectsWithPositions = useMemo(
-    () =>
-      filteredProjects.map((p, i) => ({
-        ...p,
-        gridPosition: {
-          x: 8 + pinPositions[i].lngPct * 84, // 8%–92% to keep badges on screen
-          y: 8 + pinPositions[i].latPct * 84,
-        },
-      })),
-    [filteredProjects, pinPositions]
-  );
-
   const handleToggleOverlay = useCallback(() => {
     setShowOverlay((g) => !g);
   }, []);
@@ -119,29 +88,12 @@ export function ProjectsMap({ onShowHud }: ProjectsMapProps) {
 
       {/* Leaflet satellite map */}
       <SatelliteMap
-        projects={projectsWithPositions}
+        projects={filteredProjects}
         showOverlay={showOverlay}
         onZoomChange={setZoom}
         onCenterChange={setMapCenter}
         onProjectSelect={handlePinClick}
       />
-
-      {/* Permanent waypoint badges — rendered on top of the map */}
-      <div className="absolute inset-0 z-15 pointer-events-none">
-        {projectsWithPositions.map((project) => (
-          <div
-            key={project.id}
-            className="absolute pointer-events-auto"
-            style={{
-              left: `${project.gridPosition.x}%`,
-              top: `${project.gridPosition.y}%`,
-              transform: "translate(-50%, -100%)",
-            }}
-          >
-            <Waypoint project={project} onSelect={handlePinClick} />
-          </div>
-        ))}
-      </div>
 
       {/* Top bar */}
       <div className="absolute top-0 left-0 right-0 z-20 p-3 md:p-4 flex items-start justify-between gap-3">

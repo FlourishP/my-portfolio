@@ -1,12 +1,29 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { MapContainer, TileLayer, CircleMarker, useMap, useMapEvents } from "react-leaflet";
+import { useEffect, useRef, useMemo } from "react";
+import { MapContainer, TileLayer, Marker, useMap, useMapEvents } from "react-leaflet";
+import L from "leaflet";
 import type { Project } from "@/lib/types";
 import "leaflet/dist/leaflet.css";
 
 const CENTER: [number, number] = [39.8283, -98.5795];
 const INITIAL_ZOOM = 5;
+
+function seededRandom(seed: number) {
+  let s = seed;
+  return () => {
+    s = (s * 16807 + 0) % 2147483647;
+    return (s - 1) / 2147483646;
+  };
+}
+
+function hashId(id: string): number {
+  let h = 0;
+  for (let i = 0; i < id.length; i++) {
+    h = ((h << 5) - h + id.charCodeAt(i)) | 0;
+  }
+  return Math.abs(h);
+}
 
 function ResizeHandler() {
   const map = useMap();
@@ -35,51 +52,75 @@ function ViewSync({ onZoomChange, onCenterChange }: ViewSyncProps) {
   return null;
 }
 
+function createPinIcon(project: Project): L.DivIcon {
+  const variant = hashId(project.id) % 3;
+  const summary = project.description.length > 60
+    ? project.description.slice(0, 57) + "..."
+    : project.description;
+
+  const labelAlign = variant === 0
+    ? "left: 18px;"
+    : variant === 1
+      ? "right: 18px;"
+      : "left: 50%; transform: translateX(-50%);";
+
+  const html = `
+    <div style="position:relative;cursor:pointer;" class="pin-marker">
+      <!-- Pin SVG -->
+      <svg width="32" height="42" viewBox="0 0 32 42" fill="none" style="display:block;margin:0 auto;filter:drop-shadow(0 2px 12px rgba(255,87,51,0.5));">
+        <path d="M16 0C7.16 0 0 7.16 0 16c0 12 16 26 16 26s16-14 16-26C32 7.16 24.84 0 16 0z" fill="#FF5733" stroke="rgba(255,87,51,0.6)" stroke-width="1.5"/>
+        <circle cx="16" cy="15" r="7" fill="white" fill-opacity="0.95"/>
+        <circle cx="16" cy="15" r="3.5" fill="#FF5733"/>
+      </svg>
+      <!-- Permanent label -->
+      <div style="position:absolute;bottom:100%;margin-bottom:4px;${labelAlign}width:160px;pointer-events:none;z-index:20;">
+        <div style="background:rgba(5,5,8,0.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:6px 8px;box-shadow:0 4px 16px rgba(0,0,0,0.5);">
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;color:#E8ECF4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.2;text-shadow:0 1px 2px rgba(0,0,0,0.9);">${project.title}</div>
+          <div style="font-family:'Inter',sans-serif;font-size:9px;color:rgba(232,236,244,0.55);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3;">${summary}</div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  return L.divIcon({
+    html,
+    className: "",
+    iconSize: [32, 42],
+    iconAnchor: [16, 42],
+    tooltipAnchor: [0, -42],
+  });
+}
+
 interface ProjectMarkersProps {
   projects: Project[];
   onProjectSelect: (project: Project) => void;
 }
 
 function ProjectMarkers({ projects, onProjectSelect }: ProjectMarkersProps) {
+  const seed = Date.now();
+  const rng = seededRandom(seed);
+
+  const markers = useMemo(() => {
+    const r = seededRandom(seed);
+    return projects.map((project) => {
+      const lat = CENTER[0] + (r() - 0.5) * 4;
+      const lng = CENTER[1] + (r() - 0.5) * 4;
+      return { project, lat, lng, icon: createPinIcon(project) };
+    });
+  }, [projects, seed]);
+
   return (
     <>
-      {projects.map((project) => {
-        const { x, y } = project.gridPosition;
-        const lat = CENTER[0] + (0.5 - y / 100) * 4;
-        const lng = CENTER[1] + (x / 100 - 0.5) * 4;
-
-        return (
-          <CircleMarker
-            key={project.id}
-            center={[lat, lng]}
-            radius={7}
-            pathOptions={{
-              color: "#FF5733",
-              fillColor: "#FF5733",
-              fillOpacity: 0.9,
-              weight: 2,
-              opacity: 0.8,
-            }}
-            eventHandlers={{
-              mouseover: (e) => {
-                e.target.setStyle({ radius: 10, weight: 3, fillOpacity: 1 });
-                e.target.bindTooltip(
-                  `<div style="font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;color:#E8ECF4;white-space:nowrap">${project.title}</div>
-                   <div style="font-family:'Inter',sans-serif;font-size:10px;color:#FF5733;margin-top:2px">${project.category}</div>`,
-                  { direction: "top", offset: [0, -12], className: "project-tooltip" }
-                ).openTooltip();
-              },
-              mouseout: (e) => {
-                e.target.setStyle({ radius: 7, weight: 2, fillOpacity: 0.9 });
-                e.target.closeTooltip();
-              },
-              click: () => {
-                onProjectSelect(project);
-              },
-            }}
-          />
-        );
-      })}
+      {markers.map(({ project, lat, lng, icon }) => (
+        <Marker
+          key={project.id}
+          position={[lat, lng]}
+          icon={icon}
+          eventHandlers={{
+            click: () => onProjectSelect(project),
+          }}
+        />
+      ))}
     </>
   );
 }
