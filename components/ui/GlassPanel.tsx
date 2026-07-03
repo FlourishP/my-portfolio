@@ -9,8 +9,8 @@ interface GlassPanelProps {
 export function GlassPanel({ children, className = "", hover = false }: GlassPanelProps) {
   return (
     <div
-      className={`bg-glass backdrop-blur-md border border-border rounded-2xl ${
-        hover ? "hover:bg-glass-hover hover:border-coral/30 transition-all" : ""
+      className={`bg-[#FFFFFF08] backdrop-blur-md border border-border rounded-2xl ${
+        hover ? "hover:bg-[#FFFFFF12] hover:border-coral/30 transition-all" : ""
       } ${className}`}
     >
       {children}

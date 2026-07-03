@@ -15,7 +15,7 @@ export interface GitHubRepo {
   size: number;
 }
 
-export type ViewType =
+export type ActiveApp =
   | "navigation"
   | "media"
   | "climate"

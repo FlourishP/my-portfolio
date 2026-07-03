@@ -51,13 +51,13 @@ export function GridCanvas() {
       <div className="absolute bottom-5 left-6 flex items-center gap-4">
         <div className="flex items-center gap-2">
           <div className="w-2 h-2 rounded-full bg-coral animate-pulse-ring" />
-          <span className="text-xs font-mono text-silver-dim">
+          <span className="text-[10px] font-mono text-silver-dim">
             Active Project
           </span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-2 h-2 rounded-full bg-silver-dim" />
-          <span className="text-xs font-mono text-silver-dim">
+          <span className="text-[10px] font-mono text-silver-dim">
             Click to explore
           </span>
         </div>

@@ -36,12 +36,10 @@ export function DialControl({ options, onChange }: DialControlProps) {
           <button
             key={opt.value}
             onClick={() => handleClick(i)}
-            aria-label={`Inquiry type: ${opt.label}`}
-            aria-pressed={i === activeIndex}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all focus-ring cursor-pointer ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
               i === activeIndex
                 ? "bg-coral/20 text-coral border border-coral/30"
-                : "bg-glass text-silver-dim border border-border hover:text-silver"
+                : "bg-[#FFFFFF08] text-silver-dim border border-border hover:text-silver"
             }`}
           >
             {opt.label}

@@ -15,16 +15,6 @@
   --color-glass: #FFFFFF08;
   --color-glass-hover: #FFFFFF12;
   --color-border: #1E1E22;
-
-  --color-error: #EF4444;
-  --color-success: #22C55E;
-  --color-warning: #F59E0B;
-
-  --z-base: 0;
-  --z-dock: 10;
-  --z-drawer: 20;
-  --z-overlay: 30;
-  --z-modal: 40;
 }
 
 @layer base {
@@ -38,12 +28,6 @@
   ::selection {
     background-color: var(--color-coral);
     color: var(--color-surface);
-  }
-
-  :focus-visible {
-    outline: 2px solid var(--color-coral);
-    outline-offset: 2px;
-    border-radius: 4px;
   }
 }
 
@@ -88,15 +72,6 @@
   }
 }
 
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-}
-
 .animate-pulse-ring {
   animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
@@ -115,51 +90,4 @@
 }
 .animate-eq-5 {
   animation: equalizer-bar-2 1.3s ease-in-out infinite 0.05s;
-}
-
-.animate-shimmer {
-  background: linear-gradient(
-    90deg,
-    var(--color-glass) 25%,
-    var(--color-glass-hover) 50%,
-    var(--color-glass) 75%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 1.5s ease-in-out infinite;
-}
-
-.focus-ring {
-  transition: outline-color 0.15s ease;
-}
-
-.skip-link {
-  position: absolute;
-  top: -100%;
-  left: 0;
-  z-index: 9999;
-  padding: 0.75rem 1.5rem;
-  background: var(--color-coral);
-  color: var(--color-surface);
-  font-weight: 600;
-  text-decoration: none;
-  border-radius: 0 0 8px 0;
-}
-
-.skip-link:focus {
-  top: 0;
-}
-
-.safe-area-bottom {
-  padding-bottom: env(safe-area-inset-bottom, 0px);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
 }
