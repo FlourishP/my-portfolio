@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import { GlassPanel } from "@/components/ui/GlassPanel";
 import { DialControl } from "@/components/ui/DialControl";
-import Ferrofluid from "@/components/ui/Ferrofluid";
+import { FerrofluidWrapper } from "@/components/ui/FerrofluidWrapper";
 import { LINKS } from "@/lib/constants";
 
 const INQUIRY_TYPES = [
@@ -28,7 +28,7 @@ export function ContactHUD({ onShowHud: _onShowHud }: { onShowHud?: (show: boole
     <div className="min-h-full md:h-full flex flex-col md:flex-row p-6 pb-24 md:pb-6 gap-6 relative">
       {/* Ferrofluid background */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-        <Ferrofluid
+        <FerrofluidWrapper
           colors={["#FF5733", "#A855F7", "#6C3AED"]}
           speed={0.2}
           scale={1.3}
@@ -40,7 +40,6 @@ export function ContactHUD({ onShowHud: _onShowHud }: { onShowHud?: (show: boole
           glow={1.6}
           flowDirection="down"
           opacity={0.3}
-          mouseInteraction={false}
         />
       </div>
 

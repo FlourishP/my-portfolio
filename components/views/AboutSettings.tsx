@@ -5,7 +5,7 @@ import { motion } from "motion/react";
 import { GlassPanel } from "@/components/ui/GlassPanel";
 import { useTheme } from "@/lib/hooks/useTheme";
 import { PROFILE, SKILL_TRACKS } from "@/lib/constants";
-import Ferrofluid from "@/components/ui/Ferrofluid";
+import { FerrofluidWrapper } from "@/components/ui/FerrofluidWrapper";
 
 export function AboutSettings({ onShowHud: _onShowHud }: { onShowHud?: (show: boolean) => void }) {
   const { theme, toggle } = useTheme();
@@ -22,7 +22,7 @@ export function AboutSettings({ onShowHud: _onShowHud }: { onShowHud?: (show: bo
     <div className="min-h-full md:h-full flex flex-col md:flex-row p-6 pb-24 md:pb-6 gap-6 relative">
       {/* Ferrofluid background */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-        <Ferrofluid
+        <FerrofluidWrapper
           colors={["#A855F7", "#FF5733", "#6C3AED"]}
           speed={0.28}
           scale={1.1}
@@ -34,7 +34,6 @@ export function AboutSettings({ onShowHud: _onShowHud }: { onShowHud?: (show: bo
           glow={1.4}
           flowDirection="down"
           opacity={0.35}
-          mouseInteraction={false}
         />
       </div>
 

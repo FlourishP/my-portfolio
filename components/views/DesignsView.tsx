@@ -3,14 +3,14 @@
 import { ExternalLink, Figma } from "lucide-react";
 import { GlassPanel } from "@/components/ui/GlassPanel";
 import { LINKS } from "@/lib/constants";
-import Ferrofluid from "@/components/ui/Ferrofluid";
+import { FerrofluidWrapper } from "@/components/ui/FerrofluidWrapper";
 
 export function DesignsView({ onShowHud: _onShowHud }: { onShowHud?: (show: boolean) => void }) {
   return (
     <div className="min-h-full md:h-full flex flex-col p-6 pb-24 md:pb-6 gap-5 relative">
       {/* Ferrofluid background */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-        <Ferrofluid
+        <FerrofluidWrapper
           colors={["#6C3AED", "#FF5733", "#A855F7"]}
           speed={0.22}
           scale={1.5}
@@ -22,7 +22,6 @@ export function DesignsView({ onShowHud: _onShowHud }: { onShowHud?: (show: bool
           glow={2}
           flowDirection="down"
           opacity={0.3}
-          mouseInteraction={false}
         />
       </div>
 
