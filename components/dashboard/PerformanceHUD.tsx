@@ -1,0 +1,127 @@
+"use client";
+
+import { motion } from "motion/react";
+import {
+  Github,
+  Linkedin,
+  Mail,
+  MessageCircle,
+  ExternalLink,
+} from "lucide-react";
+import { GlassPanel } from "@/components/ui/GlassPanel";
+import { StatSkeleton } from "@/components/ui/Skeleton";
+import { ErrorMessage } from "@/components/ui/ErrorMessage";
+import { useGitHubRepos } from "@/lib/hooks/useGitHubRepos";
+import { LINKS } from "@/lib/constants";
+
+interface PerformanceHUDProps {
+  className?: string;
+}
+
+export function PerformanceHUD({ className = "" }: PerformanceHUDProps) {
+  const { repos, loading, error, refetch } = useGitHubRepos();
+
+  const totalStars = repos.reduce((sum, r) => sum + r.stargazers_count, 0);
+
+  return (
+    <div className={`h-full bg-panel/60 backdrop-blur-md border-l border-border flex flex-col p-4 gap-4 overflow-y-auto ${className}`}>
+      <GlassPanel className="p-4">
+        <h3 className="text-xs font-mono uppercase tracking-widest text-coral mb-3">
+          Developer Stats
+        </h3>
+        {error ? (
+          <ErrorMessage message="Failed to load stats" onRetry={refetch} />
+        ) : loading ? (
+          <StatSkeleton />
+        ) : (
+          <div className="space-y-3">
+            <div className="flex justify-between items-center">
+              <span className="text-xs text-silver-dim">Active Projects</span>
+              <span className="text-sm font-display font-bold text-silver">
+                {repos.length}
+              </span>
+            </div>
+            <div className="w-full h-px bg-border" />
+            <div className="flex justify-between items-center">
+              <span className="text-xs text-silver-dim">Stars Earned</span>
+              <span className="text-sm font-display font-bold text-silver">
+                {totalStars}
+              </span>
+            </div>
+            <div className="w-full h-px bg-border" />
+            <div className="flex justify-between items-center">
+              <span className="text-xs text-silver-dim">Experience</span>
+              <span className="text-sm font-display font-bold text-silver">
+                2+ Years
+              </span>
+            </div>
+          </div>
+        )}
+      </GlassPanel>
+
+      <GlassPanel className="p-4">
+        <h3 className="text-xs font-mono uppercase tracking-widest text-coral mb-3">
+          Connect
+        </h3>
+        <div className="space-y-2">
+          {[
+            {
+              icon: <Github className="w-4 h-4" />,
+              label: "GitHub",
+              href: LINKS.github,
+            },
+            {
+              icon: <Linkedin className="w-4 h-4" />,
+              label: "LinkedIn",
+              href: LINKS.linkedin,
+            },
+            {
+              icon: <Mail className="w-4 h-4" />,
+              label: "Email",
+              href: LINKS.email,
+              external: false,
+            },
+            {
+              icon: <MessageCircle className="w-4 h-4" />,
+              label: "WhatsApp",
+              href: LINKS.whatsapp,
+            },
+          ].map((item) => (
+            <motion.a
+              key={item.label}
+              href={item.href}
+              target={item.external !== false ? "_blank" : undefined}
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-glass border border-border hover:border-coral/30 hover:bg-glass-hover transition-all group focus-ring cursor-pointer"
+            >
+              <div className="w-7 h-7 rounded-lg bg-coral/10 flex items-center justify-center text-coral group-hover:scale-110 transition-transform">
+                {item.icon}
+              </div>
+              <span className="text-xs font-medium text-silver/70 group-hover:text-silver transition-colors">
+                {item.label}
+              </span>
+              <ExternalLink className="w-3 h-3 text-silver-dim ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
+            </motion.a>
+          ))}
+        </div>
+      </GlassPanel>
+
+      <GlassPanel className="p-4">
+        <h3 className="text-xs font-mono uppercase tracking-widest text-coral mb-3">
+          Quick Actions
+        </h3>
+        <div className="space-y-2">
+          <a
+            href={LINKS.email}
+            className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-coral/10 border border-coral/30 text-coral text-xs font-semibold hover:bg-coral/20 transition-all focus-ring cursor-pointer"
+          >
+            <Mail className="w-3.5 h-3.5" />
+            Send Message
+          </a>
+        </div>
+      </GlassPanel>
+    </div>
+  );
+}
