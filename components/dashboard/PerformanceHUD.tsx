@@ -41,7 +41,7 @@ export function PerformanceHUD() {
           <div className="flex justify-between items-center">
             <span className="text-xs text-silver-dim">Experience</span>
             <span className="text-sm font-display font-bold text-silver">
-              2+ Years
+              5+ Years
             </span>
           </div>
         </div>
