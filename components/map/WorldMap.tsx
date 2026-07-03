@@ -1,6 +1,10 @@
 "use client";
 
-export function WorldMap() {
+interface WorldMapProps {
+  showGrid?: boolean;
+}
+
+export function WorldMap({ showGrid = true }: WorldMapProps) {
   return (
     <div className="absolute inset-0 overflow-hidden bg-surface">
       <svg
@@ -30,7 +34,7 @@ export function WorldMap() {
         </defs>
 
         {/* Base grid */}
-        <rect width="100%" height="100%" fill="url(#large-grid)" />
+        {showGrid && <rect width="100%" height="100%" fill="url(#large-grid)" />}
 
         {/* === MAJOR ROADS (horizontal) === */}
         <line x1="0" y1="200" x2="1200" y2="200" stroke="rgba(255,255,255,0.08)" strokeWidth="6" />
@@ -49,12 +53,12 @@ export function WorldMap() {
         <line x1="900" y1="0" x2="900" y2="800" stroke="url(#road-glow-v)" strokeWidth="2" />
 
         {/* === SECONDARY STREETS (horizontal) === */}
-        {[100, 300, 500, 700].map((y) => (
+        {showGrid && [100, 300, 500, 700].map((y) => (
           <line key={`sh${y}`} x1="0" y1={y} x2="1200" y2={y} stroke="rgba(255,255,255,0.04)" strokeWidth="1.5" strokeDasharray="8 4" />
         ))}
 
         {/* === SECONDARY STREETS (vertical) === */}
-        {[150, 450, 750, 1050].map((x) => (
+        {showGrid && [150, 450, 750, 1050].map((x) => (
           <line key={`sv${x}`} x1={x} y1="0" x2={x} y2="800" stroke="rgba(255,255,255,0.04)" strokeWidth="1.5" strokeDasharray="8 4" />
         ))}
 
@@ -172,24 +176,26 @@ export function WorldMap() {
         <text x="1100" y="685" textAnchor="middle" className="fill-white/10" fontSize="7" fontFamily="monospace">HELIPAD</text>
 
         {/* === STREET LABELS === */}
-        {/* Horizontal streets */}
-        <text x="15" y="196" className="fill-white/15" fontSize="8" fontFamily="monospace" fontWeight="500">DEV Blvd</text>
-        <text x="15" y="396" className="fill-white/15" fontSize="8" fontFamily="monospace" fontWeight="500">CODE Ave</text>
-        <text x="15" y="596" className="fill-white/15" fontSize="8" fontFamily="monospace" fontWeight="500">STACK St</text>
+        {showGrid && <>
+          {/* Horizontal streets */}
+          <text x="15" y="196" className="fill-white/15" fontSize="8" fontFamily="monospace" fontWeight="500">DEV Blvd</text>
+          <text x="15" y="396" className="fill-white/15" fontSize="8" fontFamily="monospace" fontWeight="500">CODE Ave</text>
+          <text x="15" y="596" className="fill-white/15" fontSize="8" fontFamily="monospace" fontWeight="500">STACK St</text>
 
-        {/* Vertical streets */}
-        <text x="304" y="18" className="fill-white/15" fontSize="8" fontFamily="monospace" fontWeight="500" writingMode="tb">REACT Rd</text>
-        <text x="604" y="18" className="fill-white/15" fontSize="8" fontFamily="monospace" fontWeight="500" writingMode="tb">NODE Ln</text>
-        <text x="904" y="18" className="fill-white/15" fontSize="8" fontFamily="monospace" fontWeight="500" writingMode="tb">API Way</text>
+          {/* Vertical streets */}
+          <text x="304" y="18" className="fill-white/15" fontSize="8" fontFamily="monospace" fontWeight="500" writingMode="tb">REACT Rd</text>
+          <text x="604" y="18" className="fill-white/15" fontSize="8" fontFamily="monospace" fontWeight="500" writingMode="tb">NODE Ln</text>
+          <text x="904" y="18" className="fill-white/15" fontSize="8" fontFamily="monospace" fontWeight="500" writingMode="tb">API Way</text>
 
-        {/* Secondary streets */}
-        <text x="155" y="96" className="fill-white/8" fontSize="6" fontFamily="monospace">Git Ct</text>
-        <text x="455" y="296" className="fill-white/8" fontSize="6" fontFamily="monospace">Type Pl</text>
-        <text x="755" y="196" className="fill-white/8" fontSize="6" fontFamily="monospace">CSS Rd</text>
-        <text x="1055" y="296" className="fill-white/8" fontSize="6" fontFamily="monospace">DB Ave</text>
+          {/* Secondary streets */}
+          <text x="155" y="96" className="fill-white/8" fontSize="6" fontFamily="monospace">Git Ct</text>
+          <text x="455" y="296" className="fill-white/8" fontSize="6" fontFamily="monospace">Type Pl</text>
+          <text x="755" y="196" className="fill-white/8" fontSize="6" fontFamily="monospace">CSS Rd</text>
+          <text x="1055" y="296" className="fill-white/8" fontSize="6" fontFamily="monospace">DB Ave</text>
+        </>}
 
         {/* === INTERSECTION DOTS === */}
-        {[
+        {showGrid && [
           [300, 200], [600, 200], [900, 200],
           [300, 400], [600, 400], [900, 400],
           [300, 600], [600, 600], [900, 600],

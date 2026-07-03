@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { Search, Plus, Minus, Crosshair, Layers, MapPin } from "lucide-react";
+import { useState, useCallback } from "react";
+import { Search, Plus, Minus, Crosshair, Layers, MapPin, Map } from "lucide-react";
 import { WorldMap } from "@/components/map/WorldMap";
 import { Waypoint } from "@/components/map/Waypoint";
 import { ProjectDrawer } from "@/components/map/ProjectDrawer";
@@ -9,9 +9,18 @@ import { useGitHubRepos } from "@/lib/hooks/useGitHubRepos";
 import { INITIAL_PROJECTS } from "@/lib/constants";
 import type { Project } from "@/lib/types";
 
+const MIN_ZOOM = 0.5;
+const MAX_ZOOM = 3;
+const ZOOM_STEP = 0.25;
+
 export function ProjectsMap() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [zoom, setZoom] = useState(1);
+  const [pan, setPan] = useState({ x: 0, y: 0 });
+  const [showGrid, setShowGrid] = useState(true);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const { repos, loading } = useGitHubRepos();
 
   const projects: Project[] = repos.map((repo, i) => ({
@@ -43,12 +52,75 @@ export function ProjectsMap() {
       )
     : displayProjects;
 
-  return (
-    <div className="relative min-h-full md:h-full w-full overflow-hidden">
-      <WorldMap />
+  const handleZoomIn = useCallback(() => {
+    setZoom((z) => Math.min(z + ZOOM_STEP, MAX_ZOOM));
+  }, []);
 
-      {/* Map pins */}
-      <div className="absolute inset-0">
+  const handleZoomOut = useCallback(() => {
+    setZoom((z) => Math.max(z - ZOOM_STEP, MIN_ZOOM));
+  }, []);
+
+  const handleCenter = useCallback(() => {
+    setZoom(1);
+    setPan({ x: 0, y: 0 });
+  }, []);
+
+  const handleToggleGrid = useCallback(() => {
+    setShowGrid((g) => !g);
+  }, []);
+
+  const handleMouseDown = useCallback(
+    (e: React.MouseEvent) => {
+      if (e.button !== 0) return;
+      setIsDragging(true);
+      setDragStart({ x: e.clientX - pan.x, y: e.clientY - pan.y });
+    },
+    [pan]
+  );
+
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent) => {
+      if (!isDragging) return;
+      setPan({
+        x: e.clientX - dragStart.x,
+        y: e.clientY - dragStart.y,
+      });
+    },
+    [isDragging, dragStart]
+  );
+
+  const handleMouseUp = useCallback(() => {
+    setIsDragging(false);
+  }, []);
+
+  return (
+    <div
+      className="relative min-h-full md:h-full w-full overflow-hidden"
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseUp}
+      style={{ cursor: isDragging ? "grabbing" : "grab" }}
+    >
+      {/* Map container with zoom/pan */}
+      <div
+        className="absolute inset-0 transition-transform duration-100 ease-out"
+        style={{
+          transform: `scale(${zoom}) translate(${pan.x / zoom}px, ${pan.y / zoom}px)`,
+          transformOrigin: "center center",
+        }}
+      >
+        <WorldMap showGrid={showGrid} />
+      </div>
+
+      {/* Map pins (outside zoom container for consistent size) */}
+      <div
+        className="absolute inset-0"
+        style={{
+          transform: `scale(${zoom}) translate(${pan.x / zoom}px, ${pan.y / zoom}px)`,
+          transformOrigin: "center center",
+        }}
+      >
         {filteredProjects.map((project) => (
           <Waypoint
             key={project.id}
@@ -59,7 +131,7 @@ export function ProjectsMap() {
       </div>
 
       {/* Top bar - Title + Search */}
-      <div className="absolute top-0 left-0 right-0 z-10 p-4 flex items-start justify-between gap-4">
+      <div className="absolute top-0 left-0 right-0 z-10 p-3 md:p-4 flex items-start justify-between gap-4">
         <div>
           <h2 className="font-display text-lg font-bold text-silver tracking-tight flex items-center gap-2">
             <MapPin className="w-4 h-4 text-coral" />
@@ -71,7 +143,7 @@ export function ProjectsMap() {
         </div>
 
         {/* Search bar */}
-        <div className="glass-premium rounded-xl px-3 py-2 flex items-center gap-2 w-52">
+        <div className="glass-premium rounded-xl px-3 py-2 flex items-center gap-2 w-48 md:w-52">
           <Search className="w-3.5 h-3.5 text-silver-dim" />
           <input
             type="text"
@@ -84,20 +156,42 @@ export function ProjectsMap() {
       </div>
 
       {/* Right controls - Zoom */}
-      <div className="absolute right-4 top-1/2 -translate-y-1/2 z-10 flex flex-col gap-1">
-        <button className="glass-premium w-8 h-8 rounded-lg flex items-center justify-center text-silver-dim hover:text-silver transition-colors">
+      <div className="absolute right-3 md:right-4 top-1/2 -translate-y-1/2 z-10 flex flex-col gap-1">
+        <button
+          onClick={handleZoomIn}
+          className="glass-premium w-8 h-8 rounded-lg flex items-center justify-center text-silver-dim hover:text-silver hover:bg-white/5 transition-all active:scale-95"
+          title="Zoom in"
+        >
           <Plus className="w-3.5 h-3.5" />
         </button>
-        <button className="glass-premium w-8 h-8 rounded-lg flex items-center justify-center text-silver-dim hover:text-silver transition-colors">
+        <button
+          onClick={handleZoomOut}
+          className="glass-premium w-8 h-8 rounded-lg flex items-center justify-center text-silver-dim hover:text-silver hover:bg-white/5 transition-all active:scale-95"
+          title="Zoom out"
+        >
           <Minus className="w-3.5 h-3.5" />
         </button>
         <div className="w-8 h-px bg-white/5 my-1" />
-        <button className="glass-premium w-8 h-8 rounded-lg flex items-center justify-center text-silver-dim hover:text-coral transition-colors">
+        <button
+          onClick={handleCenter}
+          className="glass-premium w-8 h-8 rounded-lg flex items-center justify-center text-silver-dim hover:text-coral hover:bg-coral/5 transition-all active:scale-95"
+          title="Reset view"
+        >
           <Crosshair className="w-3.5 h-3.5" />
         </button>
-        <button className="glass-premium w-8 h-8 rounded-lg flex items-center justify-center text-silver-dim hover:text-silver transition-colors">
+        <button
+          onClick={handleToggleGrid}
+          className={`glass-premium w-8 h-8 rounded-lg flex items-center justify-center transition-all active:scale-95 ${
+            showGrid ? "text-coral bg-coral/10" : "text-silver-dim hover:text-silver hover:bg-white/5"
+          }`}
+          title="Toggle grid"
+        >
           <Layers className="w-3.5 h-3.5" />
         </button>
+        {/* Zoom level indicator */}
+        <div className="glass-premium w-8 h-6 rounded-md flex items-center justify-center mt-1">
+          <span className="text-[9px] font-mono text-silver-dim">{Math.round(zoom * 100)}%</span>
+        </div>
       </div>
 
       {/* Bottom status bar */}
@@ -113,11 +207,12 @@ export function ProjectsMap() {
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <span className="text-[10px] font-mono text-silver-dim">
-              6.45&deg;N &middot; 3.39&deg;E
-            </span>
-            <div className="text-[10px] font-mono text-coral">
-              Lagos, NG
+            <div className="text-[10px] font-mono text-silver-dim">
+              Zoom: {Math.round(zoom * 100)}%
+            </div>
+            <div className="w-1 h-1 rounded-full bg-silver-dim/30" />
+            <div className="text-[10px] font-mono text-silver-dim">
+              Grid: {showGrid ? "ON" : "OFF"}
             </div>
           </div>
         </div>

@@ -24,7 +24,7 @@ export function Viewport({ activeApp }: ViewportProps) {
   const ActiveView = VIEW_MAP[activeApp];
 
   return (
-    <div className="relative h-full md:overflow-hidden overflow-auto">
+    <div className="relative h-full md:overflow-hidden overflow-auto pb-20 md:pb-0">
       <AnimatePresence mode="wait">
         <motion.div
           key={activeApp}
