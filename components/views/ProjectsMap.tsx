@@ -3,19 +3,12 @@
 import { useState, useCallback, useRef, useEffect, useMemo } from "react";
 import { motion } from "motion/react";
 import { Search, Plus, Minus, Crosshair, Layers, MapPin, BarChart3, Move } from "lucide-react";
-import { WorldMap } from "@/components/map/WorldMap";
-import { Waypoint } from "@/components/map/Waypoint";
+import { SatelliteMap } from "@/components/map/SatelliteMap";
 import { ProjectDrawer } from "@/components/map/ProjectDrawer";
 import { FerrofluidWrapper } from "@/components/ui/FerrofluidWrapper";
 import { useGitHubRepos } from "@/lib/hooks/useGitHubRepos";
 import { INITIAL_PROJECTS } from "@/lib/constants";
 import type { Project } from "@/lib/types";
-
-const CANVAS_SIZE = 12000;
-const MIN_ZOOM = 0.04;
-const MAX_ZOOM = 6;
-const ZOOM_STEP = 0.12;
-const INITIAL_ZOOM = 0.12;
 
 function seededRandom(seed: number) {
   let s = seed;
@@ -32,17 +25,14 @@ interface ProjectsMapProps {
 export function ProjectsMap({ onShowHud }: ProjectsMapProps) {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const [zoom, setZoom] = useState(INITIAL_ZOOM);
-  const [showGrid, setShowGrid] = useState(true);
-  const [pan, setPan] = useState({ x: 0, y: 0 });
-  const [isDragging, setIsDragging] = useState(false);
+  const [zoom, setZoom] = useState(13);
+  const [showOverlay, setShowOverlay] = useState(true);
+  const [mapCenter, setMapCenter] = useState<[number, number]>([6.5244, 3.3792]);
   const [hasInteracted, setHasInteracted] = useState(false);
-  const dragStart = useRef({ x: 0, y: 0 });
-  const panStart = useRef({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
   const { repos, loading } = useGitHubRepos();
 
-  const projects: Project[] = repos.map((repo, i) => ({
+  const projects: Project[] = repos.map((repo) => ({
     id: repo.name,
     title: repo.name
       .split("-")
@@ -60,95 +50,24 @@ export function ProjectsMap({ onShowHud }: ProjectsMapProps) {
 
   const displayProjects = loading || projects.length === 0 ? INITIAL_PROJECTS : projects;
 
-  const randomPositions = useMemo(() => {
-    const seed = Date.now();
-    const rng = seededRandom(seed);
-    return displayProjects.map(() => ({
-      x: 46 + rng() * 8,
-      y: 46 + rng() * 8,
-    }));
-  }, [displayProjects.length]);
-
-  const projectsWithPositions = useMemo(
-    () =>
-      displayProjects.map((p, i) => ({
-        ...p,
-        gridPosition: randomPositions[i] || { x: 50, y: 50 },
-      })),
-    [displayProjects, randomPositions]
-  );
-
   const filteredProjects = searchQuery
-    ? projectsWithPositions.filter(
+    ? displayProjects.filter(
         (p) =>
           p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
           p.category.toLowerCase().includes(searchQuery.toLowerCase())
       )
-    : projectsWithPositions;
+    : displayProjects;
 
-  const handleZoomIn = useCallback(() => {
-    setZoom((z) => Math.min(z + ZOOM_STEP, MAX_ZOOM));
-  }, []);
-
-  const handleZoomOut = useCallback(() => {
-    setZoom((z) => Math.max(z - ZOOM_STEP, MIN_ZOOM));
-  }, []);
-
-  const handleCenter = useCallback(() => {
-    setZoom(INITIAL_ZOOM);
-    setPan({ x: 0, y: 0 });
-  }, []);
-
-  const handleToggleGrid = useCallback(() => {
-    setShowGrid((g) => !g);
-  }, []);
-
-  const handleWheel = useCallback((e: React.WheelEvent) => {
-    e.preventDefault();
-    const delta = e.deltaY > 0 ? -ZOOM_STEP : ZOOM_STEP;
-    setZoom((z) => Math.min(Math.max(z + delta, MIN_ZOOM), MAX_ZOOM));
-    setHasInteracted(true);
-  }, []);
-
-  const handlePointerDown = useCallback(
-    (e: React.PointerEvent) => {
-      if (e.target instanceof HTMLElement && e.target.closest("button, input, a")) return;
-      setIsDragging(true);
-      setHasInteracted(true);
-      dragStart.current = { x: e.clientX, y: e.clientY };
-      panStart.current = { ...pan };
-      (e.target as HTMLElement).setPointerCapture(e.pointerId);
-    },
-    [pan]
-  );
-
-  const handlePointerMove = useCallback(
-    (e: React.PointerEvent) => {
-      if (!isDragging) return;
-      const dx = e.clientX - dragStart.current.x;
-      const dy = e.clientY - dragStart.current.y;
-      setPan({ x: panStart.current.x + dx, y: panStart.current.y + dy });
-    },
-    [isDragging]
-  );
-
-  const handlePointerUp = useCallback(() => {
-    setIsDragging(false);
-  }, []);
-
-  useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-    const onWheel = (e: WheelEvent) => e.preventDefault();
-    el.addEventListener("wheel", onWheel, { passive: false });
-    return () => el.removeEventListener("wheel", onWheel);
+  const handleToggleOverlay = useCallback(() => {
+    setShowOverlay((g) => !g);
   }, []);
 
   return (
     <div
       ref={containerRef}
       className="relative h-full w-full overflow-hidden"
-      onWheel={handleWheel}
+      onWheel={() => setHasInteracted(true)}
+      onPointerDown={() => setHasInteracted(true)}
     >
       {/* Ferrofluid background */}
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -167,34 +86,14 @@ export function ProjectsMap({ onShowHud }: ProjectsMapProps) {
         />
       </div>
 
-      {/* Infinite canvas - Google Maps scale */}
-      <div
-        className="absolute z-1"
-        style={{
-          width: CANVAS_SIZE,
-          height: CANVAS_SIZE,
-          left: "50%",
-          top: "50%",
-          transform: `translate(-50%, -50%) translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
-          transformOrigin: "center center",
-          cursor: isDragging ? "grabbing" : "grab",
-          touchAction: "none",
-        }}
-        onPointerDown={handlePointerDown}
-        onPointerMove={handlePointerMove}
-        onPointerUp={handlePointerUp}
-        onPointerCancel={handlePointerUp}
-      >
-        <WorldMap showGrid={showGrid} />
-
-        {filteredProjects.map((project) => (
-          <Waypoint
-            key={project.id}
-            project={project}
-            onSelect={setSelectedProject}
-          />
-        ))}
-      </div>
+      {/* Leaflet satellite map */}
+      <SatelliteMap
+        projects={filteredProjects}
+        showOverlay={showOverlay}
+        onZoomChange={setZoom}
+        onCenterChange={setMapCenter}
+        onProjectSelect={setSelectedProject}
+      />
 
       {/* Top bar */}
       <div className="absolute top-0 left-0 right-0 z-20 p-3 md:p-4 flex items-start justify-between gap-3">
@@ -233,45 +132,21 @@ export function ProjectsMap({ onShowHud }: ProjectsMapProps) {
             <BarChart3 className="w-3.5 h-3.5" />
           </motion.button>
         )}
-        <motion.button
-          onClick={handleZoomIn}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          className="glass-premium w-8 h-8 rounded-lg flex items-center justify-center text-silver-dim hover:text-silver hover:bg-white/[0.06] border border-white/[0.06] transition-all"
-        >
-          <Plus className="w-3.5 h-3.5" />
-        </motion.button>
-        <motion.button
-          onClick={handleZoomOut}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          className="glass-premium w-8 h-8 rounded-lg flex items-center justify-center text-silver-dim hover:text-silver hover:bg-white/[0.06] border border-white/[0.06] transition-all"
-        >
-          <Minus className="w-3.5 h-3.5" />
-        </motion.button>
+        <div className="glass-premium w-8 h-6 rounded-md flex items-center justify-center mt-1 border border-white/[0.06]">
+          <span className="text-[9px] font-mono text-silver-dim">z{Math.round(zoom)}</span>
+        </div>
         <div className="w-8 h-px bg-white/[0.06] my-1" />
         <motion.button
-          onClick={handleCenter}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          className="glass-premium w-8 h-8 rounded-lg flex items-center justify-center text-silver-dim hover:text-coral hover:bg-coral/10 hover:shadow-[0_0_8px_rgba(255,87,51,0.2)] border border-white/[0.06] transition-all"
-          title="Reset view"
-        >
-          <Crosshair className="w-3.5 h-3.5" />
-        </motion.button>
-        <motion.button
-          onClick={handleToggleGrid}
+          onClick={handleToggleOverlay}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           className={`glass-premium w-8 h-8 rounded-lg flex items-center justify-center border border-white/[0.06] transition-all ${
-            showGrid ? "text-coral bg-coral/10 shadow-[0_0_8px_rgba(255,87,51,0.2)]" : "text-silver-dim hover:text-silver hover:bg-white/[0.06]"
+            showOverlay ? "text-coral bg-coral/10 shadow-[0_0_8px_rgba(255,87,51,0.2)]" : "text-silver-dim hover:text-silver hover:bg-white/[0.06]"
           }`}
+          title="Toggle street labels"
         >
           <Layers className="w-3.5 h-3.5" />
         </motion.button>
-        <div className="glass-premium w-8 h-6 rounded-md flex items-center justify-center mt-1 border border-white/[0.06]">
-          <span className="text-[9px] font-mono text-silver-dim">{Math.round(zoom * 100)}%</span>
-        </div>
       </div>
 
       {/* Drag hint */}
@@ -296,11 +171,11 @@ export function ProjectsMap({ onShowHud }: ProjectsMapProps) {
           </div>
           <div className="flex items-center gap-3">
             <span className="text-[10px] font-mono text-silver-dim">
-              {Math.round(zoom * 100)}%
+              z{Math.round(zoom)}
             </span>
             <div className="w-1 h-1 rounded-full bg-silver-dim/30" />
             <span className="text-[10px] font-mono text-silver-dim">
-              Grid: {showGrid ? "ON" : "OFF"}
+              Labels: {showOverlay ? "ON" : "OFF"}
             </span>
           </div>
         </div>
