@@ -66,16 +66,21 @@ function createPinIcon(project: Project): L.DivIcon {
 
   const html = `
     <style>
-      @keyframes pin-glow { 0%,100%{opacity:0.5;transform:translateX(-50%) scale(1)} 50%{opacity:1;transform:translateX(-50%) scale(1.3)} }
-      @keyframes pin-pulse-ring { 0%{opacity:0.6;transform:translateX(-50%) scale(0.8)} 100%{opacity:0;transform:translateX(-50%) scale(2.2)} }
+      @keyframes pin-glow { 0%,100%{opacity:0.6;transform:translateX(-50%) scale(1)} 50%{opacity:1;transform:translateX(-50%) scale(1.4)} }
+      @keyframes pin-pulse-ring { 0%{opacity:0.8;transform:translateX(-50%) scale(0.7)} 100%{opacity:0;transform:translateX(-50%) scale(2.8)} }
     </style>
     <div style="position:relative;cursor:pointer;" class="pin-marker">
-      <!-- Glow rings -->
-      <div style="position:absolute;top:8px;left:50%;transform:translateX(-50%);width:40px;height:40px;border-radius:50%;background:radial-gradient(circle,rgba(255,87,51,0.4) 0%,transparent 70%);animation:pin-glow 2s ease-in-out infinite;pointer-events:none;"></div>
-      <div style="position:absolute;top:4px;left:50%;transform:translateX(-50%);width:56px;height:56px;border-radius:50%;border:1.5px solid rgba(255,87,51,0.25);animation:pin-pulse-ring 2.5s ease-out infinite;pointer-events:none;"></div>
+      <!-- Outer glow -->
+      <div style="position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:70px;height:70px;border-radius:50%;background:radial-gradient(circle,rgba(255,87,51,0.55) 0%,rgba(255,87,51,0.2) 40%,transparent 70%);animation:pin-glow 1.8s ease-in-out infinite;pointer-events:none;"></div>
+      <!-- Inner glow -->
+      <div style="position:absolute;top:4px;left:50%;transform:translateX(-50%);width:44px;height:44px;border-radius:50%;background:radial-gradient(circle,rgba(255,87,51,0.7) 0%,transparent 70%);animation:pin-glow 1.8s ease-in-out infinite 0.3s;pointer-events:none;"></div>
+      <!-- Pulse ring 1 -->
+      <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:50px;height:50px;border-radius:50%;border:2px solid rgba(255,87,51,0.4);animation:pin-pulse-ring 2s ease-out infinite;pointer-events:none;"></div>
+      <!-- Pulse ring 2 (staggered) -->
+      <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:50px;height:50px;border-radius:50%;border:2px solid rgba(255,87,51,0.3);animation:pin-pulse-ring 2s ease-out infinite 1s;pointer-events:none;"></div>
       <!-- Pin SVG -->
-      <svg width="32" height="42" viewBox="0 0 32 42" fill="none" style="display:block;margin:0 auto;filter:drop-shadow(0 0 8px rgba(255,87,51,0.6)) drop-shadow(0 0 20px rgba(255,87,51,0.3));">
-        <path d="M16 0C7.16 0 0 7.16 0 16c0 12 16 26 16 26s16-14 16-26C32 7.16 24.84 0 16 0z" fill="#FF5733" stroke="rgba(255,87,51,0.8)" stroke-width="1.5"/>
+      <svg width="32" height="42" viewBox="0 0 32 42" fill="none" style="display:block;margin:0 auto;filter:drop-shadow(0 0 10px rgba(255,87,51,0.8)) drop-shadow(0 0 25px rgba(255,87,51,0.5)) drop-shadow(0 0 50px rgba(255,87,51,0.25));">
+        <path d="M16 0C7.16 0 0 7.16 0 16c0 12 16 26 16 26s16-14 16-26C32 7.16 24.84 0 16 0z" fill="#FF5733" stroke="rgba(255,87,51,0.9)" stroke-width="1.5"/>
         <circle cx="16" cy="15" r="7" fill="white" fill-opacity="0.95"/>
         <circle cx="16" cy="15" r="3.5" fill="#FF5733"/>
       </svg>
