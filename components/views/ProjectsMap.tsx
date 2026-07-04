@@ -16,6 +16,7 @@ interface ProjectsMapProps {
 export function ProjectsMap({ onShowHud }: ProjectsMapProps) {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [activeRoutingProject, setActiveRoutingProject] = useState<Project | null>(null);
+  const [showMapOnboarding, setShowMapOnboarding] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [zoom, setZoom] = useState(5);
   const [showOverlay, setShowOverlay] = useState(true);
@@ -118,6 +119,32 @@ export function ProjectsMap({ onShowHud }: ProjectsMapProps) {
           />
         </div>
       </div>
+
+      {/* Onboarding banner */}
+      <AnimatePresence>
+        {showMapOnboarding && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+            className="absolute top-20 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-md"
+          >
+            <div className="backdrop-blur-xl bg-[#0a0a10]/95 border border-white/10 rounded-2xl p-4 shadow-[0_20px_50px_rgba(0,0,0,0.7)] flex items-center justify-between gap-4">
+              <div className="w-2.5 h-2.5 rounded-full bg-[#FF5733] animate-pulse shadow-[0_0_10px_#FF5733] flex-shrink-0" />
+              <p className="text-slate-100 text-xs sm:text-sm font-medium tracking-wide leading-relaxed flex-1 min-w-0">
+                Welcome to my portfolio! The pins anchored on this map represent my featured development projects. Click any label to explore.
+              </p>
+              <button
+                onClick={() => setShowMapOnboarding(false)}
+                className="text-[#FF5733] hover:text-white transition-colors text-xs font-bold tracking-widest uppercase cursor-pointer pl-2 flex-shrink-0"
+              >
+                GOT IT
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Right controls */}
       <div className="absolute right-3 md:right-4 top-1/2 -translate-y-1/2 z-20 flex flex-col gap-1">
