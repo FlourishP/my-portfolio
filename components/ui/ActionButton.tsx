@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 import { motion } from "motion/react";
+import { useSound } from "@/lib/hooks/useSound";
 
 interface ActionButtonProps {
   icon: ReactNode;
@@ -11,6 +12,7 @@ interface ActionButtonProps {
 }
 
 export function ActionButton({ icon, label, href, external = true }: ActionButtonProps) {
+  const { playClick } = useSound();
   return (
     <motion.a
       href={href}
@@ -18,6 +20,7 @@ export function ActionButton({ icon, label, href, external = true }: ActionButto
       rel={external ? "noopener noreferrer" : undefined}
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
+      onClick={() => playClick()}
       className="flex items-center gap-3 px-4 py-3 bg-[#FFFFFF08] backdrop-blur-md border border-border rounded-xl hover:bg-[#FFFFFF12] hover:border-coral/30 transition-all cursor-pointer group"
     >
       <div className="w-9 h-9 rounded-lg bg-coral/10 flex items-center justify-center text-coral group-hover:scale-110 transition-transform">

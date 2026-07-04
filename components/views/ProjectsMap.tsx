@@ -117,6 +117,7 @@ export function ProjectsMap({ onShowHud }: ProjectsMapProps) {
             placeholder="Search..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            onFocus={() => playClick()}
             className="bg-transparent text-xs font-mono text-silver placeholder:text-silver/60 outline-none w-full min-w-0"
           />
         </div>
