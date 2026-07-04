@@ -8,15 +8,30 @@ import "leaflet/dist/leaflet.css";
 
 const CENTER: [number, number] = [39.8283, -98.5795];
 const INITIAL_ZOOM = 5;
-const CLICK_SOUND_PATH = "/audio/click.wav";
+const CLICK_SOUND_URL = "/audio/click.wav";
+
+let clickAudio: HTMLAudioElement | null = null;
+let audioUnlocked = false;
+
+function unlockAudio() {
+  if (audioUnlocked || typeof window === "undefined") return;
+  try {
+    clickAudio = new Audio(CLICK_SOUND_URL);
+    clickAudio.volume = 0.4;
+    clickAudio.load();
+    const p = clickAudio.play();
+    if (p) p.then(() => { clickAudio?.pause(); if (clickAudio) clickAudio.currentTime = 0; audioUnlocked = true; }).catch(() => {});
+  } catch {}
+}
 
 function playClickSound() {
   try {
-    if (typeof window !== "undefined") {
-      const audio = new Audio(CLICK_SOUND_PATH);
-      audio.volume = 0.4;
-      audio.play().catch(() => {});
+    if (!clickAudio || !audioUnlocked) {
+      unlockAudio();
+      return;
     }
+    clickAudio.currentTime = 0;
+    clickAudio.play().catch(() => {});
   } catch {}
 }
 
@@ -167,6 +182,16 @@ export function SatelliteMap({
   onProjectSelect,
 }: SatelliteMapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handler = () => unlockAudio();
+    document.addEventListener("click", handler, { once: true });
+    document.addEventListener("touchstart", handler, { once: true });
+    return () => {
+      document.removeEventListener("click", handler);
+      document.removeEventListener("touchstart", handler);
+    };
+  }, []);
 
   return (
     <div ref={mapRef} className="absolute inset-0 z-1 rounded-3xl overflow-hidden">
