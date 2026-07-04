@@ -2,10 +2,12 @@
 
 import { ExternalLink, Figma } from "lucide-react";
 import { GlassPanel } from "@/components/ui/GlassPanel";
+import { useSound } from "@/lib/hooks/useSound";
 import { LINKS } from "@/lib/constants";
 import { FerrofluidWrapper } from "@/components/ui/FerrofluidWrapper";
 
 export function DesignsView({ onShowHud: _onShowHud }: { onShowHud?: (show: boolean) => void }) {
+  const { playClick } = useSound();
   return (
     <div className="min-h-full md:h-full flex flex-col p-6 pb-24 md:pb-6 gap-5 relative">
       {/* Ferrofluid background */}
@@ -38,6 +40,7 @@ export function DesignsView({ onShowHud: _onShowHud }: { onShowHud?: (show: bool
           href={LINKS.figma}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() => playClick()}
           className="flex items-center gap-2 px-4 py-2 rounded-xl bg-coral/10 border border-coral/30 text-coral text-xs font-display font-bold hover:bg-coral/20 hover:shadow-[0_0_12px_rgba(255,87,51,0.2)] transition-all"
         >
           <Figma className="w-3.5 h-3.5" />

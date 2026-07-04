@@ -4,58 +4,11 @@ import { useEffect, useRef, useMemo } from "react";
 import { MapContainer, TileLayer, Marker, useMap, useMapEvents } from "react-leaflet";
 import L from "leaflet";
 import type { Project } from "@/lib/types";
+import { useSound } from "@/lib/hooks/useSound";
 import "leaflet/dist/leaflet.css";
 
 const CENTER: [number, number] = [39.8283, -98.5795];
 const INITIAL_ZOOM = 5;
-const CLICK_SOUND_URL = "/audio/click.wav";
-
-let audioCtx: AudioContext | null = null;
-let clickBuffer: AudioBuffer | null = null;
-let bufferLoaded = false;
-
-function getAudioContext(): AudioContext | null {
-  if (typeof window === "undefined") return null;
-  if (!audioCtx) {
-    audioCtx = new AudioContext();
-  }
-  return audioCtx;
-}
-
-function loadClickBuffer() {
-  if (bufferLoaded || typeof window === "undefined") return;
-  const ctx = getAudioContext();
-  if (!ctx) return;
-  fetch(CLICK_SOUND_URL)
-    .then((res) => res.arrayBuffer())
-    .then((data) => ctx.decodeAudioData(data))
-    .then((buf) => { clickBuffer = buf; bufferLoaded = true; })
-    .catch(() => {});
-}
-
-function playClickSound() {
-  try {
-    const ctx = getAudioContext();
-    if (!ctx || !clickBuffer) return;
-    if (ctx.state === "suspended") {
-      ctx.resume().then(() => {
-        const source = ctx.createBufferSource();
-        source.buffer = clickBuffer;
-        const gain = ctx.createGain();
-        gain.gain.value = 0.4;
-        source.connect(gain).connect(ctx.destination);
-        source.start(0);
-      });
-    } else {
-      const source = ctx.createBufferSource();
-      source.buffer = clickBuffer;
-      const gain = ctx.createGain();
-      gain.gain.value = 0.4;
-      source.connect(gain).connect(ctx.destination);
-      source.start(0);
-    }
-  } catch {}
-}
 
 function seededRandom(seed: number) {
   let s = seed;
@@ -157,6 +110,7 @@ interface ProjectMarkersProps {
 }
 
 function ProjectMarkers({ projects, onProjectSelect }: ProjectMarkersProps) {
+  const { playClick } = useSound();
   const seed = Date.now();
   const rng = seededRandom(seed);
 
@@ -178,7 +132,7 @@ function ProjectMarkers({ projects, onProjectSelect }: ProjectMarkersProps) {
           icon={icon}
           eventHandlers={{
               click: () => {
-                playClickSound();
+                playClick();
                 onProjectSelect(project);
               },
             }}
@@ -204,10 +158,6 @@ export function SatelliteMap({
   onProjectSelect,
 }: SatelliteMapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    loadClickBuffer();
-  }, []);
 
   return (
     <div ref={mapRef} className="absolute inset-0 z-1 rounded-3xl overflow-hidden">

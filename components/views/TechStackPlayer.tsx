@@ -6,14 +6,17 @@ import { Play, Pause, SkipBack, SkipForward } from "lucide-react";
 import { GlassPanel } from "@/components/ui/GlassPanel";
 import { SpotifyModal } from "@/components/views/SpotifyModal";
 import { FerrofluidWrapper } from "@/components/ui/FerrofluidWrapper";
+import { useSound } from "@/lib/hooks/useSound";
 import { SKILL_TRACKS } from "@/lib/constants";
 
 export function TechStackPlayer({ onShowHud: _onShowHud }: { onShowHud?: (show: boolean) => void }) {
   const [activeTrack, setActiveTrack] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [showSpotifyModal, setShowSpotifyModal] = useState(false);
+  const { playClick } = useSound();
 
   function handlePlay(index: number) {
+    playClick();
     if (activeTrack === index) {
       setIsPlaying(!isPlaying);
     } else {
@@ -23,6 +26,7 @@ export function TechStackPlayer({ onShowHud: _onShowHud }: { onShowHud?: (show: 
   }
 
   function handleMainPlay() {
+    playClick();
     if (isPlaying) {
       setIsPlaying(false);
     } else {
@@ -31,11 +35,13 @@ export function TechStackPlayer({ onShowHud: _onShowHud }: { onShowHud?: (show: 
   }
 
   function handlePrev() {
+    playClick();
     setActiveTrack((p) => (p > 0 ? p - 1 : SKILL_TRACKS.length - 1));
     setIsPlaying(true);
   }
 
   function handleNext() {
+    playClick();
     setActiveTrack((p) => (p < SKILL_TRACKS.length - 1 ? p + 1 : 0));
     setIsPlaying(true);
   }

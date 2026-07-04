@@ -13,6 +13,7 @@ import {
 import { GlassPanel } from "@/components/ui/GlassPanel";
 import { DialControl } from "@/components/ui/DialControl";
 import { FerrofluidWrapper } from "@/components/ui/FerrofluidWrapper";
+import { useSound } from "@/lib/hooks/useSound";
 import { LINKS } from "@/lib/constants";
 
 const INQUIRY_TYPES = [
@@ -23,6 +24,7 @@ const INQUIRY_TYPES = [
 
 export function ContactHUD({ onShowHud: _onShowHud }: { onShowHud?: (show: boolean) => void }) {
   const [inquiryType, setInquiryType] = useState("web");
+  const { playClick } = useSound();
 
   return (
     <div className="min-h-full md:h-full flex flex-col md:flex-row p-6 pb-24 md:pb-6 gap-6 relative">
@@ -79,6 +81,7 @@ export function ContactHUD({ onShowHud: _onShowHud }: { onShowHud?: (show: boole
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
+                onClick={() => playClick()}
                 className="flex flex-col items-center gap-2.5 p-4 rounded-xl bg-white/[0.04] border border-white/[0.06] hover:border-coral/40 hover:bg-white/[0.06] transition-all group"
               >
                 <div className="w-10 h-10 rounded-xl bg-coral/10 flex items-center justify-center text-coral group-hover:scale-110 group-hover:shadow-[0_0_8px_rgba(255,87,51,0.3)] transition-all">
@@ -130,6 +133,7 @@ export function ContactHUD({ onShowHud: _onShowHud }: { onShowHud?: (show: boole
             href={LINKS.email}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
+            onClick={() => playClick()}
             className="flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-coral to-[#FF8C42] text-surface font-display font-bold text-sm hover:shadow-[0_0_24px_rgba(255,87,51,0.4)] transition-shadow"
           >
             <Send className="w-4 h-4" />

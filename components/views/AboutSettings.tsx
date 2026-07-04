@@ -4,17 +4,19 @@ import { useState } from "react";
 import { motion } from "motion/react";
 import { GlassPanel } from "@/components/ui/GlassPanel";
 import { useTheme } from "@/lib/hooks/useTheme";
+import { useSound } from "@/lib/hooks/useSound";
 import { PROFILE, SKILL_TRACKS } from "@/lib/constants";
 import { FerrofluidWrapper } from "@/components/ui/FerrofluidWrapper";
 
 export function AboutSettings({ onShowHud: _onShowHud }: { onShowHud?: (show: boolean) => void }) {
   const { theme, toggle } = useTheme();
+  const { soundEnabled, toggleSound, playClick } = useSound();
   const [toggles, setToggles] = useState({
-    sound: false,
     animations: true,
   });
 
   function handleToggle(key: keyof typeof toggles) {
+    playClick();
     setToggles((p) => ({ ...p, [key]: !p[key] }));
   }
 
@@ -97,7 +99,7 @@ export function AboutSettings({ onShowHud: _onShowHud }: { onShowHud?: (show: bo
             <div className="flex items-center justify-between py-3 border-b border-white/[0.06] last:border-0">
               <span className="text-sm text-silver">Dark Mode</span>
               <button
-                onClick={toggle}
+                onClick={() => { playClick(); toggle(); }}
                 className={`relative w-12 h-6 rounded-full transition-colors cursor-pointer ${
                   theme === "dark" ? "bg-gradient-to-r from-coral to-[#FF8C42]" : "bg-surface border border-white/[0.06]"
                 }`}
@@ -114,14 +116,14 @@ export function AboutSettings({ onShowHud: _onShowHud }: { onShowHud?: (show: bo
             <div className="flex items-center justify-between py-3 border-b border-white/[0.06] last:border-0">
               <span className="text-sm text-silver">Sound Effects</span>
               <button
-                onClick={() => handleToggle("sound")}
+                onClick={() => { playClick(); toggleSound(); }}
                 className={`relative w-12 h-6 rounded-full transition-colors cursor-pointer ${
-                  toggles.sound ? "bg-gradient-to-r from-coral to-[#FF8C42]" : "bg-surface border border-white/[0.06]"
+                  soundEnabled ? "bg-gradient-to-r from-coral to-[#FF8C42]" : "bg-surface border border-white/[0.06]"
                 }`}
               >
                 <motion.div
                   className="absolute top-0.5 w-5 h-5 rounded-full bg-surface shadow-md"
-                  animate={{ left: toggles.sound ? "26px" : "2px" }}
+                  animate={{ left: soundEnabled ? "26px" : "2px" }}
                   transition={{ type: "spring", stiffness: 500, damping: 30 }}
                 />
               </button>

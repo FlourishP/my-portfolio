@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useSound } from "@/lib/hooks/useSound";
 
 interface DialOption {
   label: string;
@@ -15,8 +16,10 @@ interface DialControlProps {
 export function DialControl({ options, onChange }: DialControlProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const rotation = (activeIndex / (options.length - 1)) * 270 - 135;
+  const { playClick } = useSound();
 
   function handleClick(index: number) {
+    playClick();
     setActiveIndex(index);
     onChange(options[index].value);
   }

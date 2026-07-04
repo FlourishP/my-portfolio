@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from "motion/react";
 import { X, Globe, ExternalLink } from "lucide-react";
+import { useSound } from "@/lib/hooks/useSound";
 
 interface SpotifyModalProps {
   isOpen: boolean;
@@ -9,11 +10,15 @@ interface SpotifyModalProps {
 }
 
 export function SpotifyModal({ isOpen, onClose }: SpotifyModalProps) {
+  const { playClick } = useSound();
+
   function handleStreamWeb() {
+    playClick();
     onClose();
   }
 
   function handleOpenApp() {
+    playClick();
     window.open(
       "spotify:playlist:37i9dQZF1DX5trt9i14X7j",
       "_blank"
@@ -29,7 +34,7 @@ export function SpotifyModal({ isOpen, onClose }: SpotifyModalProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={onClose}
+            onClick={() => { playClick(); onClose(); }}
             className="absolute inset-0 bg-black/60 backdrop-blur-sm z-40"
           />
           <motion.div
@@ -44,7 +49,7 @@ export function SpotifyModal({ isOpen, onClose }: SpotifyModalProps) {
                 Play Music
               </h3>
               <button
-                onClick={onClose}
+                onClick={() => { playClick(); onClose(); }}
                 className="w-8 h-8 rounded-lg bg-white/[0.04] border border-white/[0.06] flex items-center justify-center text-silver-dim hover:text-silver hover:border-coral/40 transition-all"
               >
                 <X className="w-4 h-4" />

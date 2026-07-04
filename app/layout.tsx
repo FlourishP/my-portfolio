@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { ThemeProvider } from "@/lib/hooks/useTheme";
+import { SoundProvider } from "@/lib/hooks/useSound";
 import "./globals.css";
 
 export const dynamic = "force-dynamic";
@@ -35,7 +36,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="h-screen overflow-auto">
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <SoundProvider>{children}</SoundProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

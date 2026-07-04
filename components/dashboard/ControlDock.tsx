@@ -2,6 +2,7 @@
 
 import { motion } from "motion/react";
 import { Map, Music, Thermometer, Pen, Settings } from "lucide-react";
+import { useSound } from "@/lib/hooks/useSound";
 import type { ActiveApp } from "@/lib/types";
 
 interface ControlDockProps {
@@ -18,6 +19,7 @@ const NAV_ITEMS: { id: ActiveApp; icon: typeof Map; label: string }[] = [
 ];
 
 export function ControlDock({ activeApp, onNavigate }: ControlDockProps) {
+  const { playClick } = useSound();
   return (
     <div className="flex flex-col items-center justify-center h-full glass-premium border-r border-white/[0.06] py-6 gap-1 relative rounded-none z-20">
       {NAV_ITEMS.map(({ id, icon: Icon, label }) => {
@@ -25,7 +27,7 @@ export function ControlDock({ activeApp, onNavigate }: ControlDockProps) {
         return (
           <motion.button
             key={id}
-            onClick={() => onNavigate(id)}
+            onClick={() => { playClick(); onNavigate(id); }}
             title={label}
             whileHover={{ scale: 1.08 }}
             whileTap={{ scale: 0.92 }}

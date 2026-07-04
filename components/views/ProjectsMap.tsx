@@ -6,6 +6,7 @@ import { Search, Layers, MapPin, BarChart3, Move, ExternalLink, Github, X } from
 import { SatelliteMap } from "@/components/map/SatelliteMap";
 import { FerrofluidWrapper } from "@/components/ui/FerrofluidWrapper";
 import { useGitHubRepos } from "@/lib/hooks/useGitHubRepos";
+import { useSound } from "@/lib/hooks/useSound";
 import { INITIAL_PROJECTS } from "@/lib/constants";
 import type { Project } from "@/lib/types";
 
@@ -16,6 +17,7 @@ interface ProjectsMapProps {
 export function ProjectsMap({ onShowHud }: ProjectsMapProps) {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [activeRoutingProject, setActiveRoutingProject] = useState<Project | null>(null);
+  const { playClick } = useSound();
   const [showMapOnboarding, setShowMapOnboarding] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [zoom, setZoom] = useState(5);
@@ -136,7 +138,7 @@ export function ProjectsMap({ onShowHud }: ProjectsMapProps) {
                 Welcome to my portfolio! The pins anchored on this map represent my featured development projects. Click any label to explore.
               </p>
               <button
-                onClick={() => setShowMapOnboarding(false)}
+                onClick={() => { playClick(); setShowMapOnboarding(false); }}
                 className="text-[#FF5733] hover:text-white transition-colors text-xs font-bold tracking-widest uppercase cursor-pointer pl-2 flex-shrink-0"
               >
                 GOT IT
@@ -150,7 +152,7 @@ export function ProjectsMap({ onShowHud }: ProjectsMapProps) {
       <div className="absolute right-3 md:right-4 top-1/2 -translate-y-1/2 z-20 flex flex-col gap-1">
         {onShowHud && (
           <motion.button
-            onClick={() => onShowHud(true)}
+            onClick={() => { playClick(); onShowHud(true); }}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             className="glass-map w-8 h-8 rounded-lg flex items-center justify-center text-silver hover:text-coral hover:bg-coral/15 hover:shadow-[0_0_10px_rgba(255,87,51,0.3)] transition-all md:hidden"
@@ -164,7 +166,7 @@ export function ProjectsMap({ onShowHud }: ProjectsMapProps) {
         </div>
         <div className="w-8 h-px bg-white/10 my-1" />
         <motion.button
-          onClick={handleToggleOverlay}
+          onClick={() => { playClick(); handleToggleOverlay(); }}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           className={`glass-map w-8 h-8 rounded-lg flex items-center justify-center transition-all ${
@@ -218,7 +220,7 @@ export function ProjectsMap({ onShowHud }: ProjectsMapProps) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              onClick={handleDismissModal}
+              onClick={() => { playClick(); handleDismissModal(); }}
               className="fixed inset-0 bg-black/70 backdrop-blur-md z-40"
             />
 
@@ -233,7 +235,7 @@ export function ProjectsMap({ onShowHud }: ProjectsMapProps) {
               <div className="bg-[#0a0a10]/90 backdrop-blur-2xl border border-white/10 rounded-2xl p-6 shadow-2xl">
                 {/* Close button */}
                 <button
-                  onClick={handleDismissModal}
+                  onClick={() => { playClick(); handleDismissModal(); }}
                   className="absolute top-4 right-4 w-7 h-7 rounded-lg bg-white/[0.04] border border-white/[0.06] flex items-center justify-center text-silver-dim hover:text-silver hover:border-coral/40 transition-all"
                 >
                   <X className="w-3.5 h-3.5" />
@@ -267,6 +269,7 @@ export function ProjectsMap({ onShowHud }: ProjectsMapProps) {
                       href={activeRoutingProject.liveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
+                      onClick={() => playClick()}
                       className="flex items-center gap-3 w-full px-4 py-3.5 rounded-xl bg-gradient-to-r from-coral to-[#FF8C42] text-[#050508] font-display font-bold text-sm hover:shadow-[0_0_20px_rgba(255,87,51,0.4)] transition-shadow"
                     >
                       <ExternalLink className="w-4 h-4 flex-shrink-0" />
@@ -279,6 +282,7 @@ export function ProjectsMap({ onShowHud }: ProjectsMapProps) {
                     href={activeRoutingProject.repoUrl}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() => playClick()}
                     className="flex items-center gap-3 w-full px-4 py-3.5 rounded-xl bg-white/[0.04] border border-white/10 text-silver font-display font-bold text-sm hover:border-coral/30 hover:bg-white/[0.06] hover:shadow-[0_0_12px_rgba(255,87,51,0.15)] transition-all"
                   >
                     <Github className="w-4 h-4 flex-shrink-0" />

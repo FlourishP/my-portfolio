@@ -10,10 +10,12 @@ import {
 } from "lucide-react";
 import { GlassPanel } from "@/components/ui/GlassPanel";
 import { useGitHubRepos } from "@/lib/hooks/useGitHubRepos";
+import { useSound } from "@/lib/hooks/useSound";
 import { LINKS } from "@/lib/constants";
 
 export function PerformanceHUD() {
   const { repos, loading } = useGitHubRepos();
+  const { playClick } = useSound();
 
   const totalStars = repos.reduce((sum, r) => sum + r.stargazers_count, 0);
 
@@ -82,6 +84,7 @@ export function PerformanceHUD() {
               rel="noopener noreferrer"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
+              onClick={() => playClick()}
               className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.06] hover:border-coral/40 hover:bg-white/[0.06] transition-all group"
             >
               <div className="w-7 h-7 rounded-lg bg-coral/10 flex items-center justify-center text-coral group-hover:scale-110 group-hover:shadow-[0_0_8px_rgba(255,87,51,0.3)] transition-all">
@@ -103,6 +106,7 @@ export function PerformanceHUD() {
         <div className="space-y-2">
           <a
             href={LINKS.email}
+            onClick={() => playClick()}
             className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-coral/10 border border-coral/30 text-coral text-xs font-semibold hover:bg-coral/20 hover:shadow-[0_0_12px_rgba(255,87,51,0.2)] transition-all"
           >
             <Mail className="w-3.5 h-3.5" />

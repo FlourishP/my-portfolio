@@ -2,6 +2,7 @@
 
 import { motion } from "motion/react";
 import { Map, Music, Thermometer, Pen, Settings } from "lucide-react";
+import { useSound } from "@/lib/hooks/useSound";
 import type { ActiveApp } from "@/lib/types";
 
 interface MobileDockProps {
@@ -18,6 +19,7 @@ const NAV_ITEMS: { id: ActiveApp; icon: typeof Map; label: string }[] = [
 ];
 
 export function MobileDock({ activeApp, onNavigate }: MobileDockProps) {
+  const { playClick } = useSound();
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden safe-area-bottom">
       <div className="glass-premium rounded-t-2xl px-2 sm:px-4 pt-2 pb-2 sm:pb-3 border-t border-white/[0.06]">
@@ -27,7 +29,7 @@ export function MobileDock({ activeApp, onNavigate }: MobileDockProps) {
             return (
               <motion.button
                 key={id}
-                onClick={() => onNavigate(id)}
+                onClick={() => { playClick(); onNavigate(id); }}
                 title={label}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.9 }}
