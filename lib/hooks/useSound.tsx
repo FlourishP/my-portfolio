@@ -49,7 +49,7 @@ function playClickRaw() {
         const source = ctx.createBufferSource();
         source.buffer = clickBuffer;
         const gain = ctx.createGain();
-        gain.gain.value = 0.4;
+        gain.gain.value = 0.28;
         source.connect(gain).connect(ctx.destination);
         source.start(0);
       });
@@ -57,7 +57,7 @@ function playClickRaw() {
       const source = ctx.createBufferSource();
       source.buffer = clickBuffer;
       const gain = ctx.createGain();
-      gain.gain.value = 0.4;
+      gain.gain.value = 0.28;
       source.connect(gain).connect(ctx.destination);
       source.start(0);
     }
