@@ -10,28 +10,50 @@ const CENTER: [number, number] = [39.8283, -98.5795];
 const INITIAL_ZOOM = 5;
 const CLICK_SOUND_URL = "/audio/click.wav";
 
-let clickAudio: HTMLAudioElement | null = null;
-let audioUnlocked = false;
+let audioCtx: AudioContext | null = null;
+let clickBuffer: AudioBuffer | null = null;
+let bufferLoaded = false;
 
-function unlockAudio() {
-  if (audioUnlocked || typeof window === "undefined") return;
-  try {
-    clickAudio = new Audio(CLICK_SOUND_URL);
-    clickAudio.volume = 0.4;
-    clickAudio.load();
-    const p = clickAudio.play();
-    if (p) p.then(() => { clickAudio?.pause(); if (clickAudio) clickAudio.currentTime = 0; audioUnlocked = true; }).catch(() => {});
-  } catch {}
+function getAudioContext(): AudioContext | null {
+  if (typeof window === "undefined") return null;
+  if (!audioCtx) {
+    audioCtx = new AudioContext();
+  }
+  return audioCtx;
+}
+
+function loadClickBuffer() {
+  if (bufferLoaded || typeof window === "undefined") return;
+  const ctx = getAudioContext();
+  if (!ctx) return;
+  fetch(CLICK_SOUND_URL)
+    .then((res) => res.arrayBuffer())
+    .then((data) => ctx.decodeAudioData(data))
+    .then((buf) => { clickBuffer = buf; bufferLoaded = true; })
+    .catch(() => {});
 }
 
 function playClickSound() {
   try {
-    if (!clickAudio || !audioUnlocked) {
-      unlockAudio();
-      return;
+    const ctx = getAudioContext();
+    if (!ctx || !clickBuffer) return;
+    if (ctx.state === "suspended") {
+      ctx.resume().then(() => {
+        const source = ctx.createBufferSource();
+        source.buffer = clickBuffer;
+        const gain = ctx.createGain();
+        gain.gain.value = 0.4;
+        source.connect(gain).connect(ctx.destination);
+        source.start(0);
+      });
+    } else {
+      const source = ctx.createBufferSource();
+      source.buffer = clickBuffer;
+      const gain = ctx.createGain();
+      gain.gain.value = 0.4;
+      source.connect(gain).connect(ctx.destination);
+      source.start(0);
     }
-    clickAudio.currentTime = 0;
-    clickAudio.play().catch(() => {});
   } catch {}
 }
 
@@ -184,13 +206,7 @@ export function SatelliteMap({
   const mapRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handler = () => unlockAudio();
-    document.addEventListener("click", handler, { once: true });
-    document.addEventListener("touchstart", handler, { once: true });
-    return () => {
-      document.removeEventListener("click", handler);
-      document.removeEventListener("touchstart", handler);
-    };
+    loadClickBuffer();
   }, []);
 
   return (
