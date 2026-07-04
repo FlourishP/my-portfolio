@@ -8,6 +8,17 @@ import "leaflet/dist/leaflet.css";
 
 const CENTER: [number, number] = [39.8283, -98.5795];
 const INITIAL_ZOOM = 5;
+const CLICK_SOUND_PATH = "/audio/click.wav";
+
+function playClickSound() {
+  try {
+    if (typeof window !== "undefined") {
+      const audio = new Audio(CLICK_SOUND_PATH);
+      audio.volume = 0.4;
+      audio.play().catch(() => {});
+    }
+  } catch {}
+}
 
 function seededRandom(seed: number) {
   let s = seed;
@@ -129,8 +140,11 @@ function ProjectMarkers({ projects, onProjectSelect }: ProjectMarkersProps) {
           position={[lat, lng]}
           icon={icon}
           eventHandlers={{
-            click: () => onProjectSelect(project),
-          }}
+              click: () => {
+                playClickSound();
+                onProjectSelect(project);
+              },
+            }}
         />
       ))}
     </>
