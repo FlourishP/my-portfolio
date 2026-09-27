@@ -1,20 +1,34 @@
 <div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+
+# Silver Princess K — Portfolio
+
+**Full-Stack Developer & Designer** | Building at the intersection of structure & storytelling.
+
+[![GitHub](https://img.shields.io/badge/GitHub-FlourishP-black)](https://github.com/FlourishP)
+[![Email](https://img.shields.io/badge/Email-princesssilver928@gmail.com-red)](mailto:princesssilver928@gmail.com)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Silver%20Princess%20K-blue)](https://linkedin.com/in/silverprincessk)
+
 </div>
 
-# Run and deploy your AI Studio app
+## About
 
-This contains everything you need to run your app locally.
+Full-Stack & AI Software Engineer with 5+ years building scalable web apps, optimizing databases, and deploying LLM pipelines. Specialized in TypeScript, Next.js, Python, FastAPI, and AI integrations (OpenAI, Gemini, Claude).
 
-View your app in AI Studio: https://ai.studio/apps/f05f07ac-9f79-4bb1-a7a2-626018a8c448
+## Projects
 
-## Run Locally
+| Project | Description |
+|---------|-------------|
+| [Maison Savage](https://github.com/FlourishP/maison-savage) | Luxury fashion e-commerce — Next.js, Tailwind, Framer Motion |
+| [Velvet Coffee](https://github.com/FlourishP/velvet-coffee) | Premium coffee shop landing page |
+| [Loud Gadgets](https://github.com/FlourishP/loud-gadgets) | Tech store e-commerce for Enugu, Nigeria |
 
-**Prerequisites:**  Node.js
+## Skills
 
+**Frontend:** Next.js, React, TypeScript, Tailwind CSS, Framer Motion
+**Backend:** Python, FastAPI, Node.js, Express, PostgreSQL, MySQL
+**AI:** OpenAI API, Gemini API, Claude API, Vector Embeddings, Prompt Engineering
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## Contact
+
+- Email: princesssilver928@gmail.com
+- LinkedIn: linkedin.com/in/silverprincessk
